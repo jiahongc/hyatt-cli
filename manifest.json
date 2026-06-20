@@ -1,0 +1,38 @@
+{
+  "manifest_version": "0.3",
+  "name": "hyatt-pp-mcp",
+  "display_name": "World of Hyatt",
+  "version": "0.0.0",
+  "description": "Hyatt award availability as a scriptable, local, agent-readable CLI.",
+  "author": {
+    "name": "CLI Printing Press"
+  },
+  "license": "Apache-2.0",
+  "server": {
+    "type": "binary",
+    "entry_point": "bin/hyatt-pp-mcp",
+    "mcp_config": {
+      "command": "${__dirname}/bin/hyatt-pp-mcp",
+      "args": [],
+      "env": {
+        "HYATT_COOKIES": "${user_config.hyatt_cookies}"
+      }
+    }
+  },
+  "user_config": {
+    "hyatt_cookies": {
+      "type": "string",
+      "title": "HYATT_COOKIES",
+      "description": "Optional. Sets HYATT_COOKIES for the World of Hyatt MCP server.",
+      "sensitive": true
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ]
+  }
+}

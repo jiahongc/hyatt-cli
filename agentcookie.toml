@@ -1,0 +1,16 @@
+# agentcookie.toml: secrets-bus adoption manifest v2
+# See docs/spec-agentcookie-secrets-bus-v2-adoption.md
+schema_version = 2
+name = "hyatt-pp-cli"
+display_name = "World of Hyatt"
+description = "Hyatt award availability as a scriptable, local, agent-readable CLI."
+project_kind = "cli"
+
+[secrets.file]
+path = "~/.config/hyatt-pp-cli/config.toml"
+
+[sync]
+default = false
+
+[sync.keys]
+HYATT_COOKIES = true

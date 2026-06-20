@@ -1,0 +1,30 @@
+{
+  "api_name": "hyatt",
+  "base_url": "https://www.hyatt.com",
+  "description": "Check World of Hyatt points-calendar availability from Hyatt calendar pages",
+  "mcp_ready": "partial",
+  "http_transport": "browser-chrome",
+  "auth": {
+    "type": "cookie",
+    "header": "Cookie",
+    "in": "cookie",
+    "env_vars": [
+      "HYATT_COOKIES"
+    ],
+    "env_var_specs": [
+      {
+        "name": "HYATT_COOKIES",
+        "kind": "per_call",
+        "required": true,
+        "sensitive": true,
+        "inferred": true
+      }
+    ],
+    "cookie_domain": ".hyatt.com",
+    "requires_browser_session": true,
+    "browser_session_validation_path": "/explore-hotels/service/hotels",
+    "browser_session_validation_method": "GET"
+  },
+  "required_headers": [],
+  "tools": []
+}

@@ -1,0 +1,1305 @@
+{
+  "text": "SKIP MAIN NAVIGATION\nSign In or Join\nExplore\nOffers\nMeetings & Events\nLoyalty Program\nOur Credit Cards\nAlila Bangsar Kuala Lumpur\n4.5 stars\n4.5 (552)\nAward Category\n 2\n+4\nHotel Website\nSeptember 2026\nBegin by choosing a length of stay. Explore different stay lengths for additional availability.\n1 Night\n1 Guest\nStandard Room\nJune\n2026\nJuly\n2026\nAugust\n2026\nSeptember\n2026\nOctober\n2026\nNovember\n2026\nDecember\n2026\nJanuary\n2027\nFebruary\n2027\nMarch\n2027\nApril\n2027\nMay\n2027\nJune\n2027\nJuly\n2027\nSunday\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\n1\n7,500\nPoints\nLow\n2\nCheckout\n7,500\nPoints\nLow\n3\n6,000\nPoints\nLowest\n4\n6,000\nPoints\nLowest\n5\n6,000\nPoints\nLowest\n6\n6,000\nPoints\nLowest\n7\n6,000\nPoints\nLowest\n8\n6,000\nPoints\nLowest\n9\n6,000\nPoints\nLowest\n10\n6,000\nPoints\nLowest\n11\n6,000\nPoints\nLowest\n12\n6,000\nPoints\nLowest\n13\n6,000\nPoints\nLowest\n14\n6,000\nPoints\nLowest\n15\n6,000\nPoints\nLowest\n16\n6,000\nPoints\nLowest\n17\n6,000\nPoints\nLowest\n18\n6,000\nPoints\nLowest\n19\n6,000\nPoints\nLowest\n20\n6,000\nPoints\nLowest\n21\n6,000\nPoints\nLowest\n22\n6,000\nPoints\nLowest\n23\n6,000\nPoints\nLowest\n24\n6,000\nPoints\nLowest\n25\n6,000\nPoints\nLowest\n26\n6,000\nPoints\nLowest\n27\n7,500\nPoints\nLow\n28\n7,500\nPoints\nLow\n29\n7,500\nPoints\nLow\n30\nChecking in September 1\nPoints for this stay:\nTue, September 1:\t7,500\nTotal*:\t7,500\nSIGN IN\nBOOK NOW\n* Points will be deducted from your account when the reservation is confirmed.\nRESERVATIONS\nModify / Cancel\nRetrieve Hotel Bill\nCUSTOMER SERVICE\nFAQs\nContact Us\nCORPORATE SITES\nAbout Us\nCareers\nInvestor Relations\nHyatt Development\nCorporate Responsibility\nNewsroom\nEXPLORE MORE\nTravel Professionals\nCorporate Travel\nResidences\nGift Cards\nTHE HYATT.COM\nBEST RATE GUARANTEE\nTHE HYATT.COM BEST RATE GUARANTEE\nLEARN MORE\nGET THE MOBILE APP\nCONNECT WITH HYATT\nFacebook\nInstagram\nX\nLinkedin\nYoutube\nPrivacy Policy|Terms & Conditions|Cookie Center|Security & Safety|Modern Slavery and Human Trafficking|Do Not Sell or Share My Personal Information|© 2026 Hyatt Corporation",
+  "store": {
+    "analyticsPageTitle": "Variable Redemption Calendar",
+    "startDate": "2026-09-01",
+    "endDate": "2026-10-05",
+    "spiritCode": "kulal",
+    "isRightToLeft": false,
+    "gpLoginStatus": "Logged-out",
+    "chaseCreditCardEligible": true,
+    "pageTitle": "pagetitle.pointsCalendar",
+    "routePath": "/rate-calendar",
+    "tealium": {
+      "env": "prod",
+      "utag_data": {
+        "site_id": "hyhyattcom",
+        "rearch_flag": true
+      },
+      "features": {
+        "targetLocal": true
+      }
+    },
+    "numRooms": 1,
+    "numAdults": 1,
+    "numChildren": 0,
+    "rate": "Standard",
+    "childrenAges": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "stayStartDay": "2026-09-01",
+    "stayEndDay": "2026-09-02",
+    "ldFlags": {
+      "releaseBlueBeta": "off",
+      "releaseHamiltonVRCAwardLabels": true
+    },
+    "days": {
+      "2026-09-08": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-07": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-29": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-09": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-30": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-11": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-10": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-13": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-12": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-15": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-14": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-17": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-16": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-19": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-18": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-10-05": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-10-04": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-10-03": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-10-02": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-10-01": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-20": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-08-30": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-08-31": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-22": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-21": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-02": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-24": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-01": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-23": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-04": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-26": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-03": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-25": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-06": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-28": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            7500
+          ],
+          "pointsLevel": "OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-05": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      },
+      "2026-09-27": {
+        "STANDARD_ROOM": {
+          "pointsValue": [
+            6000
+          ],
+          "pointsLevel": "SUPER_OFF_PEAK",
+          "rate": null
+        }
+      }
+    },
+    "propertyTimeZone": "Asia/Kuala_Lumpur",
+    "roomCategory": "STANDARD_ROOM",
+    "messages": {
+      "message.makeTravelMoreRewarding": "Make travel more rewarding with World of Hyatt.",
+      "message.joinNowExclamation": "Join now!",
+      "message.alreadyAMember": "Already a member?",
+      "message.signInExclamation": "Sign in!",
+      "message.fieldsRequired": "All fields are required.",
+      "label.woh": "World of Hyatt",
+      "message.fieldRequired": "This field is required.",
+      "message.invalidEmailFormat": "Please enter a valid email address.",
+      "label.email": "Email",
+      "label.phone": "Phone Number",
+      "button.next": "Next",
+      "label.of": "of",
+      "button.checkAvailability": "Check availability",
+      "message.errorGeneric": "Something went wrong",
+      "message.rateCalendarMessages.loadError": "We're having trouble loading the Points Calendar for {hotelName}.",
+      "message.pleaseTryLater": "Please try again later.",
+      "label.checkout": "Checkout",
+      "message.rateCalendarMessages.lowest": "Lowest",
+      "message.rateCalendarMessages.low": "Low",
+      "message.rateCalendarMessages.roomUnavailable": "Room Choice Not Available for Check-in",
+      "label.points": "Points",
+      "message.rateNames.pointsCash": "Points + Cash",
+      "message.rateCalendarMessages.infoUnavailable": "Information Not Available",
+      "message.notYetAvailable": "Not Yet Available",
+      "message.rateCalendarMessages.offPeak": "Off-peak",
+      "message.wohEnrollStepOne": "Join in minutes to save up to 10%. You’ll get members-only offers and earn rewards by enjoying restaurants, spas, and unique experiences.",
+      "label.firstName": "Given / First Name",
+      "label.lastName": "Surname / Last Name",
+      "pagetitle.hyattError": "Hyatt | Error",
+      "message.rateCalendarMessages.checkingIn": "Checking in {formattedDate}",
+      "message.rateCalendarMessages.pointsAvailable": "Points available: {currentBalance}",
+      "message.rateCalendarMessages.pointsForStay": "Points for this stay:",
+      "message.rateCalendarMessages.totalStar": "Total*:",
+      "button.signIn": "Sign In",
+      "label.bookNow": "Book Now",
+      "message.rateCalendarMessages.disclaimerPointsOnly": "Points will be deducted from your account when the reservation is confirmed.",
+      "href.memberSignIn": "https://www.{domain}/en-US/member/sign-in",
+      "message.rateCalendarMessages.chooseLengthOfStay": "Begin by choosing a length of stay. Explore different stay lengths for additional availability.",
+      "message.rateCalendarMessages.legend": "Legend",
+      "message.noAvailabilityWithSuggestion": "Not available. Try updating dates or details.",
+      "message.rateCalendarMessages.roomCategory": "Room Category",
+      "label.currentPoints": "Current Points",
+      "label.awardCategory": "Award Category",
+      "message.rateCalendarMessages.signIn": "Sign in",
+      "message.rateCalendarMessages.toSeePoints": "to see your current points total",
+      "button.remove": "Remove",
+      "button.keep": "Keep",
+      "message.gotIt": "Got It!",
+      "label.temporarilyNotAvailable": "Temporarily not available",
+      "heading.allInclusive": "All Inclusive",
+      "label.adultsOnly": "Adults Only",
+      "label.memberOnly": "Member Only",
+      "label.newlyAdded": "Newly Added",
+      "label.new(partner)": "New",
+      "label.comingSoon": "Coming Soon",
+      "label.openingSoon": "Opening Soon",
+      "label.newlyRenovated": "Newly Renovated",
+      "button.close": "Close",
+      "button.checkRates": "Check Rates",
+      "button.viewLocations": "View Locations",
+      "label.progressBarRoomType": "Room Type",
+      "button.done": "Done",
+      "button.findhotels": "Find Hotels",
+      "label.usePoints": "Use Points",
+      "label.accessibleRoom": "Accessible Room",
+      "label.accessible": "Accessible",
+      "label.checkin": "Check-in",
+      "label.selectDatesAndGuests": "Select Dates and Guests",
+      "label.adults": "Adults",
+      "label.childCountSingular": "{childCount} Child",
+      "label.childCountPlural": "{childCount} Children",
+      "label.ageOfChildren": "Age of Children",
+      "label.atTimeOfStay": "At time of stay",
+      "label.guestCountSingular": "{guestCount} Guest",
+      "label.guestCountPlural": "{guestCount} Guests",
+      "label.roomCountSingular": "{roomCount} Room",
+      "label.roomCountPlural": "{roomCount} Rooms",
+      "label.adultsPerRoom": "Adults Per Room",
+      "label.none": "None",
+      "label.governmentMilitaryBusiness": "Government/Military Business",
+      "label.militaryVeteranLeisure": "Military/Veteran Leisure",
+      "label.aaaCaaMember": "AAA / CAA Member",
+      "label.senior": "Senior",
+      "label.specialOfferCode": "Special Offer Code",
+      "label.corporateGroupCode": "Corporate or Group Code",
+      "label.specialRates": "Special Rates (AAA, Govt, ...)",
+      "copy.whereDoYouWantToGo": "City, Address, Landmark, Airport, Hotel",
+      "label.edit": "Edit",
+      "button.updateSearch": "Update Search",
+      "button.cancel": "Cancel",
+      "label.numResultsSingular": "<span data-js=total-results>{numResults}</span> Result",
+      "label.numResultsPlural": "<span data-js=total-results>{numResults}</span> Results",
+      "message.noResultsHeader": "There are no Hyatt hotels that match your search.",
+      "message.noResultsInstructions": "Please modify your search and try again.",
+      "label.nightCountSingular": "{nightCount} Night",
+      "label.nightCountPlural": "{nightCount} Nights",
+      "copy.selectHotelPlaceholder": "Country, State, City, Hotel Name",
+      "label.destination": "Destination",
+      "heading.whereCanHyattTakeYou": "Where can Hyatt take you?",
+      "button.search": "Search",
+      "label.filter": "Filters",
+      "label.aria.dreamMapViewToggle": "Map view. (Releasing redirects to list page view)",
+      "label.new": "New",
+      "label.resetFilters": "Reset Filters",
+      "label.result": "Result",
+      "label.results": "Results",
+      "label.view": "View",
+      "button.applyFilters": "Apply Filters",
+      "button.viewList": "View List",
+      "button.viewMap": "View Map",
+      "label.awardCategories": "Award Categories",
+      "label.hotel": "Hotel",
+      "label.from": "from",
+      "label.pointsPerNight": "Points/Night",
+      "message.toUsePointsAtAParticipatingMrMrsHotel": "To use points at a participating Mr & Mrs Smith hotel, choose a hotel and dates and select \"Use Points\"",
+      "label.allInclusive": "All-inclusive",
+      "heading.guestExperience": "Guest Experience",
+      "label.brands": "Brands",
+      "label.hotelAmenities": "Hotel Amenities",
+      "label.mostPopular": "Most Popular",
+      "label.otherAmenities": "Other Amenities",
+      "button.reset": "Reset",
+      "message.errorOccured": "Looks like an error occurred while your request was being processed.",
+      "message.rateCalendarMessages.pointsCalendar": "Points Calendar",
+      "message.openNewWindow": "Opens in new tab or window.",
+      "label.viewHotelWebsite": "View Hotel",
+      "button.select": "Select",
+      "label.hotelAmenitiesMore": "More Amenities",
+      "button.hotelWebsite": "HOTEL WEBSITE",
+      "label.ratingStars": "{rating} stars",
+      "heading.reviews": "Reviews",
+      "pagedescription.exploreHotels": "Explore Hyatt’s map to find hotels and resorts. Refine options by amenities, categories or brands",
+      "button.map": "Map",
+      "button.list": "List",
+      "heading.brands.ziva.subheadline": "The <strong>family friendly</strong> all-inclusive resort where guests of all ages can delight in fun.",
+      "heading.brands.zilara.subheadline": "The <strong>adults only</strong> all-inclusive resort with endless opportunities to live in the moment.",
+      "button.join": "Join",
+      "button.myAccount": "My Account",
+      "button.signOut": "Sign Out",
+      "button.wohHome": "World of Hyatt Home",
+      "button.memberBenefits": "Member Benefits",
+      "button.rewards": "Rewards",
+      "href.joinWOH": "https://www.{domain}/en-US/member/enroll",
+      "href.myAccount": "https://world.{domain}/content/gp/en/my-account.html",
+      "href.woh": "https://world.{domain}/content/gp/en.html",
+      "href.memberBenefits": "https://world.{domain}/content/gp/en/member-benefits.html",
+      "href.rewards": "https://world.{domain}/content/gp/en/rewards.html",
+      "heading.welcomeBack": "Welcome Back",
+      "href.signIn": "https://world.{domain}/content/gp/en/sign-in.html",
+      "copy.iAmNotUser": "I am not {firstName} {lastName}",
+      "heading.wohSignIn": "<small>Sign In To</small> World of Hyatt",
+      "label.skipMainNavigation": "Skip Main Navigation",
+      "button.offers": "Offers",
+      "button.hotelsResorts": "Hotels & Resorts",
+      "button.myReservations": "My Reservations",
+      "button.meetingsEvents": "Meetings & Events",
+      "button.aboutUs": "About Us",
+      "href.offers": "https://www.{domain}/en-US/offers",
+      "href.myReservations": "https://www.{domain}/MyReservations",
+      "href.meetingsEvents": "https://meetings.{domain}/en.html",
+      "href.aboutHyatt": "https://about.{domain}/",
+      "button.woh": "World of Hyatt",
+      "list.tiers.V": "Discoverist",
+      "list.tiers.E": "Explorist",
+      "list.tiers.B": "Globalist",
+      "list.tiers.L": "Lifetime Globalist",
+      "list.tiers.C": "Courtesy Card",
+      "list.tiers.M": "Member",
+      "label.qualifiedNights": "Qualified Nights YTD",
+      "label.basePoints": "Base Points YTD",
+      "heading.sorry": "We're Sorry",
+      "copy.offlineForMaintenance": "The World of Hyatt account system is offline for maintenance. We will be back shortly.",
+      "button.findReservationCenter": "Find a Reservation Center",
+      "heading.woh": "World of Hyatt",
+      "href.findReservationCenter": "/hyatt/customer-service/contact-hyatt/contact-information-by-region.jsp",
+      "copy.callReservationCenter": "For immediate support, please contact a reservation center.",
+      "button.language": "Language",
+      "list.countries.AC": "Ascension Island",
+      "list.countries.AD": "Andorra",
+      "list.countries.AE": "United Arab Emirates",
+      "list.countries.AF": "Afghanistan",
+      "list.countries.AG": "Antigua and Barbuda",
+      "list.countries.AI": "Anguilla",
+      "list.countries.AM": "Armenia",
+      "list.countries.AN": "Netherlands Antilles",
+      "list.countries.AO": "Angola",
+      "list.countries.AQ": "Antarctica",
+      "list.countries.AR": "Argentina",
+      "list.countries.AS": "American Samoa",
+      "list.countries.AT": "Austria",
+      "list.countries.AU": "Australia",
+      "list.countries.AW": "Aruba",
+      "list.countries.AZ": "Azerbaijan",
+      "list.countries.BA": "Bosnia and Herzegovina",
+      "list.countries.BB": "Barbados",
+      "list.countries.BD": "Bangladesh",
+      "list.countries.BE": "Belgium",
+      "list.countries.BF": "Burkina Faso",
+      "list.countries.BG": "Bulgaria",
+      "list.countries.BH": "Bahrain",
+      "list.countries.BI": "Burundi",
+      "list.countries.BJ": "Benin",
+      "list.countries.BM": "Bermuda",
+      "list.countries.BN": "Brunei Darussalam",
+      "list.countries.BO": "Bolivia",
+      "list.countries.BR": "Brazil",
+      "list.countries.BS": "Bahamas",
+      "list.countries.BT": "Bhutan",
+      "list.countries.BU": "Burma",
+      "list.countries.BW": "Botswana",
+      "list.countries.BY": "Belarus",
+      "list.countries.BZ": "Belize",
+      "list.countries.CA": "Canada",
+      "list.countries.CB": "Corsica",
+      "list.countries.CC": "Cocos (Keeling) Islands",
+      "list.countries.CD": "Congo (Democratic Republic of the)",
+      "list.countries.CE": "Channel Islands",
+      "list.countries.CF": "Central African Republic",
+      "list.countries.CG": "Congo",
+      "list.countries.CH": "Switzerland",
+      "list.countries.CI": "Côte d'Ivoire",
+      "list.countries.CJ": "Caroline Islands",
+      "list.countries.CK": "Cook Islands",
+      "list.countries.CL": "Chile",
+      "list.countries.CM": "Cameroon",
+      "list.countries.CN": "China",
+      "list.countries.CO": "Colombia",
+      "list.countries.CR": "Costa Rica",
+      "list.countries.CS": "Canary Islands",
+      "list.countries.CU": "Cuba",
+      "list.countries.CV": "Cabo Verde (Republic of)",
+      "list.countries.CW": "Curaçao",
+      "list.countries.CX": "Christmas Island",
+      "list.countries.CY": "Cyprus",
+      "list.countries.CZ": "Czech Republic",
+      "list.countries.DE": "Germany",
+      "list.countries.DJ": "Djibouti",
+      "list.countries.DK": "Denmark",
+      "list.countries.DM": "Dominica",
+      "list.countries.DO": "Dominican Republic",
+      "list.countries.DZ": "Algeria",
+      "list.countries.EC": "Ecuador",
+      "list.countries.EE": "Estonia",
+      "list.countries.EG": "Egypt",
+      "list.countries.EH": "Western Sahara",
+      "list.countries.EN": "England",
+      "list.countries.ER": "Eritrea",
+      "list.countries.ES": "Spain",
+      "list.countries.ET": "Ethiopia",
+      "list.countries.FI": "Finland",
+      "list.countries.FJ": "Fiji",
+      "list.countries.FK": "Falkland Islands",
+      "list.countries.FM": "Micronesia (Federated States of)",
+      "list.countries.FO": "Faroe Islands",
+      "list.countries.FR": "France",
+      "list.countries.FW": "French West Indies",
+      "list.countries.FX": "Metropolitan France",
+      "list.countries.GA": "Gabon",
+      "list.countries.GB": "United Kingdom of Great Britain and Northern Ireland",
+      "list.countries.GC": "Grenadines",
+      "list.countries.GD": "Grenada",
+      "list.countries.GE": "Georgia",
+      "list.countries.GF": "French Guiana",
+      "list.countries.GH": "Ghana",
+      "list.countries.GI": "Gibraltar",
+      "list.countries.GK": "Grand Turk",
+      "list.countries.GL": "Greenland",
+      "list.countries.GM": "Gambia",
+      "list.countries.GN": "Guinea",
+      "list.countries.GP": "Guadeloupe",
+      "list.countries.GQ": "Equatorial Guinea",
+      "list.countries.GR": "Greece",
+      "list.countries.GS": "South Georgia and the South Sandwich Islands",
+      "list.countries.GT": "Guatemala",
+      "list.countries.GU": "Guam",
+      "list.countries.GW": "Guinea-Bissau",
+      "list.countries.GY": "Guyana",
+      "list.countries.HK": "Hong Kong SAR",
+      "list.countries.HN": "Honduras",
+      "list.countries.HR": "Croatia",
+      "list.countries.HT": "Haiti",
+      "list.countries.HU": "Hungary",
+      "list.countries.ID": "Indonesia",
+      "list.countries.IE": "Ireland",
+      "list.countries.IL": "Israel",
+      "list.countries.IN": "India",
+      "list.countries.IO": "British Indian Ocean Territory",
+      "list.countries.IQ": "Iraq",
+      "list.countries.IR": "Iran (Islamic Republic of)",
+      "list.countries.IS": "Iceland",
+      "list.countries.IT": "Italy",
+      "list.countries.JM": "Jamaica",
+      "list.countries.JO": "Jordan",
+      "list.countries.JP": "Japan",
+      "list.countries.KE": "Kenya",
+      "list.countries.KG": "Kyrgyzstan",
+      "list.countries.KH": "Cambodia",
+      "list.countries.KI": "Kiribati",
+      "list.countries.KM": "Comoros",
+      "list.countries.KN": "Saint Kitts and Nevis",
+      "list.countries.KP": "North Korea (Democratic People's Republic of)",
+      "list.countries.KR": "South Korea (Republic of)",
+      "list.countries.KW": "Kuwait",
+      "list.countries.KY": "Cayman Islands",
+      "list.countries.KZ": "Kazakhstan",
+      "list.countries.LA": "Laos",
+      "list.countries.LB": "Lebanon",
+      "list.countries.LC": "Saint Lucia",
+      "list.countries.LE": "Leeward Island",
+      "list.countries.LI": "Liechtenstein",
+      "list.countries.LK": "Sri Lanka",
+      "list.countries.LR": "Liberia",
+      "list.countries.LS": "Lesotho",
+      "list.countries.LT": "Lithuania",
+      "list.countries.LU": "Luxembourg",
+      "list.countries.LV": "Latvia",
+      "list.countries.LY": "Libya",
+      "list.countries.MA": "Morocco",
+      "list.countries.MB": "Madeira Islands",
+      "list.countries.MC": "Monaco",
+      "list.countries.MD": "Moldova (Republic of)",
+      "list.countries.MG": "Madagascar",
+      "list.countries.MH": "Marshall Islands",
+      "list.countries.MI": "Miquelon",
+      "list.countries.MK": "Macedonia",
+      "list.countries.ML": "Mali",
+      "list.countries.MM": "Myanmar",
+      "list.countries.MN": "Mongolia",
+      "list.countries.MO": "Macau SAR",
+      "list.countries.MP": "Northern Mariana Islands",
+      "list.countries.MQ": "Martinique",
+      "list.countries.MR": "Mauritania",
+      "list.countries.MS": "Montserrat",
+      "list.countries.MT": "Malta",
+      "list.countries.MU": "Mauritius",
+      "list.countries.MV": "Maldives",
+      "list.countries.MW": "Malawi",
+      "list.countries.MX": "Mexico",
+      "list.countries.MY": "Malaysia",
+      "list.countries.MZ": "Mozambique",
+      "list.countries.NA": "Namibia",
+      "list.countries.NB": "North Borneo",
+      "list.countries.NC": "New Caledonia",
+      "list.countries.NE": "Niger",
+      "list.countries.NF": "Norfolk Island",
+      "list.countries.NG": "Nigeria",
+      "list.countries.NI": "Nicaragua",
+      "list.countries.NL": "Netherlands",
+      "list.countries.NO": "Norway",
+      "list.countries.NP": "Nepal",
+      "list.countries.NR": "Nauru",
+      "list.countries.NU": "Niue",
+      "list.countries.NV": "Nevis",
+      "list.countries.NZ": "New Zealand",
+      "list.countries.OM": "Oman",
+      "list.countries.PA": "Panama",
+      "list.countries.PE": "Peru",
+      "list.countries.PF": "French Polynesia",
+      "list.countries.PG": "Papua New Guinea",
+      "list.countries.PH": "Philippines",
+      "list.countries.PK": "Pakistan",
+      "list.countries.PL": "Poland",
+      "list.countries.PM": "Saint Pierre and Miquelon",
+      "list.countries.PN": "Pitcairn",
+      "list.countries.PR": "Puerto Rico",
+      "list.countries.PS": "Palestine (State of)",
+      "list.countries.PT": "Portugal",
+      "list.countries.PW": "Palau",
+      "list.countries.PY": "Paraguay",
+      "list.countries.PZ": "Panama Canal Zone",
+      "list.countries.QA": "Qatar",
+      "list.countries.RE": "Réunion",
+      "list.countries.RO": "Romania",
+      "list.countries.RS": "Serbia",
+      "list.countries.RU": "Russian Federation",
+      "list.countries.RW": "Rwanda",
+      "list.countries.SA": "Saudi Arabia",
+      "list.countries.SB": "Solomon Islands",
+      "list.countries.SC": "Seychelles",
+      "list.countries.SD": "Sudan",
+      "list.countries.SE": "Sweden",
+      "list.countries.SG": "Singapore",
+      "list.countries.SH": "Saint Helena, Ascension and Tristan da Cunha",
+      "list.countries.SI": "Slovenia",
+      "list.countries.SJ": "Svalbard and Jan Mayen",
+      "list.countries.SK": "Slovakia",
+      "list.countries.SL": "Sierra Leone",
+      "list.countries.SM": "San Marino",
+      "list.countries.SN": "Senegal",
+      "list.countries.SO": "Somalia",
+      "list.countries.SP": "St Christopher",
+      "list.countries.SR": "Suriname",
+      "list.countries.ST": "Sao Tome and Principe",
+      "list.countries.SV": "El Salvador",
+      "list.countries.SY": "Syrian Arab Republic",
+      "list.countries.SZ": "Swaziland",
+      "list.countries.TA": "Tahiti",
+      "list.countries.TB": "Tristan Da Cunha",
+      "list.countries.TC": "Turks and Caicos Islands",
+      "list.countries.TD": "Chad",
+      "list.countries.TE": "Transkei",
+      "list.countries.TF": "French Southern Territories",
+      "list.countries.TG": "Togo",
+      "list.countries.TH": "Thailand",
+      "list.countries.TJ": "Tajikistan",
+      "list.countries.TK": "Tokelau",
+      "list.countries.TM": "Turkmenistan",
+      "list.countries.TN": "Tunisia",
+      "list.countries.TO": "Tonga",
+      "list.countries.TP": "East Timor",
+      "list.countries.TR": "Turkey",
+      "list.countries.TT": "Trinidad and Tobago",
+      "list.countries.TV": "Tuvalu",
+      "list.countries.TW": "Taiwan",
+      "list.countries.TZ": "Tanzania (United Republic of)",
+      "list.countries.UA": "Ukraine",
+      "list.countries.UG": "Uganda",
+      "list.countries.UM": "United States Minor Outlying Islands",
+      "list.countries.UP": "Upper Volta",
+      "list.countries.US": "United States of America",
+      "list.countries.UY": "Uruguay",
+      "list.countries.UZ": "Uzbekistan",
+      "list.countries.VA": "Vatican City State",
+      "list.countries.VC": "Saint Vincent and the Grenadines",
+      "list.countries.VE": "Venezuela (Bolivarian Republic of)",
+      "list.countries.VG": "Virgin Islands (British)",
+      "list.countries.VI": "Virgin Islands (U.S.)",
+      "list.countries.VN": "Viet Nam",
+      "list.countries.VU": "Vanuatu",
+      "list.countries.WA": "West Africa",
+      "list.countries.WF": "Wallis and Futuna",
+      "list.countries.WI": "British West Indies",
+      "list.countries.WK": "Wake Island",
+      "list.countries.WS": "Samoa",
+      "list.countries.WX": "Wales",
+      "list.countries.WY": "Scotland",
+      "list.countries.XA": "Gaza",
+      "list.countries.XB": "Northern Ireland",
+      "list.countries.XI": "Indian Ocean Islands",
+      "list.countries.YE": "Yemen",
+      "list.countries.YT": "Mayotte",
+      "list.countries.ZA": "South Africa",
+      "list.countries.ZM": "Zambia",
+      "list.countries.ZO": "Azores",
+      "list.countries.ZW": "Zimbabwe",
+      "list.countries.AL": "Albania",
+      "list.countries.AX": "Åland Islands",
+      "list.countries.BL": "Saint Barthélemy",
+      "list.countries.BQ": "Bonaire, Sint Eustatius and Saba",
+      "list.countries.IM": "Isle of Man",
+      "list.countries.JE": "Jersey",
+      "list.countries.SX": "Sint Maarten (Dutch)",
+      "list.countries.TL": "Timor-Leste",
+      "list.countries.GG": "Guernsey",
+      "list.countries.ME": "Montenegro",
+      "list.countries.MF": "Saint Martin (French)",
+      "list.countries.SS": "South Sudan",
+      "list.currencies.DZD": "Algerian Dinar",
+      "list.currencies.ARS": "Argentine Peso",
+      "list.currencies.AUD": "Australian Dollar",
+      "list.currencies.AZN": "Azerbaijanian Manat",
+      "list.currencies.BHD": "Bahraini Dinar",
+      "list.currencies.BRL": "Brazilian Real",
+      "list.currencies.GBP": "British Pound",
+      "list.currencies.BGN": "Bulgarian Lev",
+      "list.currencies.CAD": "Canadian Dollar",
+      "list.currencies.KYD": "Cayman Islands Dollar",
+      "list.currencies.CZK": "Czech Koruna",
+      "list.currencies.CLP": "Chilean Peso",
+      "list.currencies.CNY": "Chinese Yuan",
+      "list.currencies.DKK": "Danish Krone",
+      "list.currencies.XCD": "East Caribbean Dollar",
+      "list.currencies.EGP": "Egyptian Pound",
+      "list.currencies.EUR": "Euro",
+      "list.currencies.FJD": "Fijian Dollar",
+      "list.currencies.XPF": "French Polynesian Franc",
+      "list.currencies.GTQ": "Guatemalan Quetzal",
+      "list.currencies.HKD": "Hong Kong Dollar",
+      "list.currencies.HUF": "Hungarian Forint",
+      "list.currencies.INR": "Indian Rupee",
+      "list.currencies.IDR": "Indonesian Rupiah",
+      "list.currencies.ILS": "Israeli Sheckel",
+      "list.currencies.ISK": "Iceland Krona",
+      "list.currencies.JPY": "Japanese Yen",
+      "list.currencies.JOD": "Jordanian Dinar",
+      "list.currencies.KZT": "Kazakhstani Tenge",
+      "list.currencies.LBP": "Lebanese Pound",
+      "list.currencies.MOP": "Macanese Pataca",
+      "list.currencies.MYR": "Malaysian Ringgit",
+      "list.currencies.MXN": "Mexican Peso",
+      "list.currencies.MAD": "Moroccan Dirham",
+      "list.currencies.NAD": "Namibia Dollar",
+      "list.currencies.NPR": "Nepalese Rupee",
+      "list.currencies.TWD": "New Taiwan Dollar",
+      "list.currencies.NZD": "New Zealand Dollar",
+      "list.currencies.NIO": "Nicaraguan Cordobas",
+      "list.currencies.NOK": "Norwegian Krone",
+      "list.currencies.OMR": "Omani Rial",
+      "list.currencies.PAB": "Panamanian Balboa",
+      "list.currencies.PGK": "Papua New Guinean Kina",
+      "list.currencies.PHP": "Philippine Peso",
+      "list.currencies.PLN": "Polish Zloty",
+      "list.currencies.QAR": "Qatari Rial",
+      "list.currencies.RUB": "Russian Ruble",
+      "list.currencies.SAR": "Saudi Riyal",
+      "list.currencies.SGD": "Singapore Dollar",
+      "list.currencies.ZAR": "South African Rand",
+      "list.currencies.KRW": "South Korean Won",
+      "list.currencies.LKR": "Sri Lankan Rupee",
+      "list.currencies.SEK": "Swedish Krona",
+      "list.currencies.CHF": "Swiss Franc",
+      "list.currencies.THB": "Thai Baht",
+      "list.currencies.TTD": "Trinidad and Tobago Dollar",
+      "list.currencies.TND": "Tunisian Dinar",
+      "list.currencies.TRY": "Turkish Lira",
+      "list.currencies.AED": "UAE Dirham",
+      "list.currencies.UAH": "Ukrainian Hryvnia",
+      "list.currencies.USD": "United States Dollar",
+      "list.currencies.UZS": "Uzbekistan Som",
+      "list.currencies.VUV": "Vanuatu Vatu",
+      "list.currencies.VND": "Vietnamese Dong",
+      "list.currencies.AMD": "Armenian Dram",
+      "list.currencies.COP": "Colombian Peso",
+      "list.currencies.KWD": "Kuwaiti Dinar",
+      "list.states.AU.AC": "Australian Capital Territory",
+      "list.states.AU.NS": "New South Wales",
+      "list.states.AU.NT": "Northern Territory",
+      "list.states.AU.QL": "Queensland",
+      "list.states.AU.SA": "South Australia",
+      "list.states.AU.TA": "Tasmania",
+      "list.states.AU.VI": "Victoria",
+      "list.states.AU.WA": "Western Australia",
+      "list.states.CA.AB": "Alberta",
+      "list.states.CA.BC": "British Columbia",
+      "list.states.CA.MB": "Manitoba",
+      "list.states.CA.NB": "New Brunswick",
+      "list.states.CA.NL": "Newfoundland & Labrador",
+      "list.states.CA.NT": "Northwest Territory",
+      "list.states.CA.NS": "Nova Scotia",
+      "list.states.CA.ON": "Ontario",
+      "list.states.CA.PE": "Prince Edward Island",
+      "list.states.CA.QC": "Quebec",
+      "list.states.CA.SK": "Saskatchewan",
+      "list.states.CA.YT": "Yukon Territory",
+      "list.states.CA.NU": "Nunavut",
+      "list.states.US.AK": "Alaska",
+      "list.states.US.AL": "Alabama",
+      "list.states.US.AR": "Arkansas",
+      "list.states.US.AZ": "Arizona",
+      "list.states.US.AA": "Armed Forces Americas",
+      "list.states.US.AE": "Armed Forces Europe",
+      "list.states.US.AP": "Armed Forces Pacific",
+      "list.states.US.CA": "California",
+      "list.states.US.CO": "Colorado",
+      "list.states.US.CT": "Connecticut",
+      "list.states.US.DC": "District Of Columbia",
+      "list.states.US.DE": "Delaware",
+      "list.states.US.FL": "Florida",
+      "list.states.US.GA": "Georgia",
+      "list.states.US.HI": "Hawaii",
+      "list.states.US.IA": "Iowa",
+      "list.states.US.ID": "Idaho",
+      "list.states.US.IL": "Illinois",
+      "list.states.US.IN": "Indiana",
+      "list.states.US.KS": "Kansas",
+      "list.states.US.KY": "Kentucky",
+      "list.states.US.LA": "Louisiana",
+      "list.states.US.MA": "Massachusetts",
+      "list.states.US.MD": "Maryland",
+      "list.states.US.ME": "Maine",
+      "list.states.US.MI": "Michigan",
+      "list.states.US.MN": "Minnesota",
+      "list.states.US.MO": "Missouri",
+      "list.states.US.MS": "Mississippi",
+      "list.states.US.MT": "Montana",
+      "list.states.US.NC": "North Carolina",
+      "list.states.US.ND": "North Dakota",
+      "list.states.US.NE": "Nebraska",
+      "list.states.US.NH": "New Hampshire",
+      "list.states.US.NJ": "New Jersey",
+      "list.states.US.NM": "New Mexico",
+      "list.states.US.NV": "Nevada",
+      "list.states.US.NY": "New York",
+      "list.states.US.OH": "Ohio",
+      "list.states.US.OK": "Oklahoma",
+      "list.states.US.OR": "Oregon",
+      "list.states.US.PA": "Pennsylvania",
+      "list.states.US.RI": "Rhode Island",
+      "list.states.US.SC": "South Carolina",
+      "list.states.US.SD": "South Dakota",
+      "list.states.US.TN": "Tennessee",
+      "list.states.US.TX": "Texas",
+      "list.states.US.UT": "Utah",
+      "list.states.US.VA": "Virginia",
+      "list.states.US.VT": "Vermont",
+      "list.states.US.WA": "Washington",
+      "list.states.US.WI": "Wisconsin",
+      "list.states.US.WV": "West Virginia",
+      "list.states.US.WY": "Wyoming",
+      "list.regionGroups.northAmerica": "United States & Canada",
+      "list.regionGroups.caribbeanAndLatinAmerica": "Caribbean & Latin America",
+      "list.regionGroups.europe": "Europe",
+      "list.regionGroups.africaAndMiddleEast": "Africa & Middle East",
+      "list.regionGroups.asia": "Asia",
+      "list.regionGroups.australia": "Australia & Pacific",
+      "list.regionGroups.all": "All",
+      "button.closeMap": "Close Map",
+      "button.closeNotification": "Close Notification",
+      "button.less": "Less",
+      "button.lessDetails": "Less Details",
+      "button.moreDetails": "More Details",
+      "button.searchAsMapMoves": "Search as Map Moves",
+      "button.searchHotels": "Search Hotels",
+      "button.searchResults": "Search Results",
+      "button.searchThisArea": "Search This Area",
+      "button.tryAgain": "Try Again",
+      "button.signInWithEmail": "Sign in with email",
+      "button.signInWithPassword": "Sign in with password",
+      "button.signInOrJoin": "Sign In or Join",
+      "label.bedType.oneQueen": "1 Queen",
+      "label.bedType.oneKing": "1 King",
+      "label.bedType.twoQueen": "2 Queen",
+      "label.bedType.twoTwin": "2 Twin",
+      "label.bedType.twoDouble": "2 Double",
+      "label.bedType.suite": "One or more bedrooms connected to lounge area.",
+      "label.bedType.specialitySuite": "View our collections of truly distinctive suites. Some require calling our hotel to reserve.",
+      "label.bedType.residence": "One or more bedrooms with large living space and/or kitchen.",
+      "label.bedType.theReserve": "Featuring a dedicated entrance, private check-in, 24-hour butler service and VIP lounge access.",
+      "label.bookNowOnly": "Book Now Only",
+      "label.bookWithPointsPrompt": "Would you like to book these dates with points?",
+      "label.brandsToExplore": "Brands to Explore",
+      "label.checkinCheckout": "Check-In and Checkout",
+      "label.checkinTime": "Check-in Time",
+      "label.checkoutTime": "Checkout Time",
+      "label.checkoutTransactionDate": "Checkout/Transaction Date",
+      "label.details": "Details",
+      "label.earlyAccessCardmember": "Cardmembers enjoy early access",
+      "label.exclusiveAccessCourtesyCard": "Enjoy exclusive access with Courtesy Card",
+      "label.exclusiveAccessExplorist": "Explorists enjoy exclusive access",
+      "label.exclusiveAccessGlobalist": "Globalists enjoy exclusive access",
+      "label.exclusiveAccessLifetimeGlobalist": "Lifetime Globalists enjoy exclusive access",
+      "label.hotelCategories": "Hotel Categories",
+      "label.mobileKey": "Mobile Key",
+      "label.oneBed": "One Bed",
+      "label.onlineCheckIn": "Online Check-In",
+      "label.residences": "Residences/Villas",
+      "label.suites": "Suites",
+      "label.theReserve": "The Reserve - An Exclusive Experience",
+      "label.twoBeds": "Two Beds",
+      "message.awardNightRedemptionBenefit": "Award night redemption more than 12 months in advance is a benefit for Explorists, Globalists and World of Hyatt Cardmembers. Check back in when you reach this status—and start enjoying exclusive access.",
+      "message.awardNightRedemptionBenefitUnlock": "Award night redemption more than 12 months in advance is a benefit for Explorists, Globalists and World of Hyatt Cardmembers. You can <a href=https://world.hyatt.com/content/gp/en/rewards/hyatt-credit-card.html target=_blank>unlock access</a> with a World of Hyatt Credit Card.",
+      "message.awardNightRedemptionSignIn": "Explorists, Globalists and World of Hyatt Cardmembers can redeem award nights more than 12 months in advance. <a href={signInUrl}>Sign in</a> to view availability.",
+      "message.awardNightRedemptionSignInUnlock": "<a href={signInUrl}>Sign in</a> to redeem award nights more than 12 months in advance, a benefit for Explorists, Globalists and World of Hyatt Cardmembers. You can <a href=https://world.hyatt.com/content/gp/en/rewards/hyatt-credit-card.html target=_blank>unlock access</a> with a World of Hyatt Credit Card.",
+      "message.earlyAccessCardmember": "As a World of Hyatt Cardmember, you're among select members who get a first look at award night inventory. You can view and book award nights one month sooner.",
+      "message.exclusiveAccessCourtesyCard": "As part of your Courtesy Card benefits, you're among select members who get a first look at award night inventory. You can view and book award nights one month sooner.",
+      "message.exclusiveAccessExplorist": "As an Explorist, you're among select members who get a first look at award night inventory. You can view and book award nights one month sooner.",
+      "message.exclusiveAccessGlobalist": "As a Globalist, you're among select members who get a first look at award night inventory. You can view and book award nights one month sooner.",
+      "message.exclusiveAccessLifetimeGlobalist": "As a Lifetime Globalist, you're among select members who get a first look at award night inventory. You can view and book award nights one month sooner.",
+      "message.datesError.invalidFormat": "Please check your dates and format them as (MMM/DD/YYYY).",
+      "message.datesError.tooFarAway": "We're sorry. Only dates up to 24 months from today can be searched.",
+      "message.datesError.beforeToday": "The date you selected is in the past. Please select a valid date.",
+      "message.excludesTax": "Excludes tax & service charges",
+      "message.experiencingIssues": "We are currently experiencing issues.",
+      "message.pageNotFound": "Page not found.",
+      "message.notAcceptingPointsAwards": "This hotel is not accepting World of Hyatt point reservations during these dates; please modify your search.",
+      "message.roomQuantityLimit": "World of Hyatt points and awards can be redeemed one room at a time. To book another room, please make a separate reservation.",
+      "message.roomQuantityLimitForSLH": "Small Luxury Hotels of the World can only be booked one room at a time. To book another room, please make a separate reservation.",
+      "message.WoHPanelOopsDuplicateEmail": "Oops! It looks like there is already an account associated with that email address.",
+      "message.WoHPanelCannotComplete": "We're sorry. We were unable to complete your enrollment.",
+      "message.awardBookingModal.pointsSelected": "Points Selected",
+      "message.awardBookingModal.pointsBalance": "Points Balance",
+      "message.rateNames.redeemPoints": "Redeem Points",
+      "message.rateNames.wohPrepay": "World of Hyatt Prepay &amp; Save",
+      "message.rateNames.wohFlexible": "World of Hyatt Flexible",
+      "message.rateNames.wohFlexibleWithDeposit": "World of Hyatt Flexible",
+      "message.rateNames.wohDoublePoints": "Double Your Points",
+      "message.rateNames.wohGuaranteedAvailability": "Guaranteed Availability",
+      "message.rateNames.prepay": "Prepay &amp; Save",
+      "message.rateNames.flexible": "Flexible",
+      "message.rateNames.flexibleWithDeposit": "Flexible",
+      "message.rateNames.promotion": "Save Up To 20%",
+      "message.rateNames.promotionalRate": "Promotional Rate",
+      "message.rateNames.resortCredit": "$100 Resort Credit",
+      "message.rateNames.pointsCashInStandardRoom": "Redeem Points + Cash",
+      "message.rateNames.cashPoints": "Upgrade Using Points",
+      "message.rateNames.award": "Redeem Free Night Award",
+      "message.rateNames.senior": "Senior Discount",
+      "message.rateNames.government": "Government Discount",
+      "message.rateNames.aaa": "AAA Discount",
+      "message.rateNames.veteran": "Veteran",
+      "message.rateNames.offerCode": "Offer Name ({code})",
+      "message.rateNames.theReserve": "The Reserve",
+      "message.rateNames.thirdNightFree": "A Night on the Park",
+      "message.rateNames.guestRoomSummary": "Guest Room Summary",
+      "message.rateNames.eventSpaceError": "Event Space Error",
+      "message.rateNames.eventSpaceSummary": "Event Space Summary",
+      "message.rateNames.eventSpaceFoodAndBeverageSummary": "Event Space and Food & Beverage Summary",
+      "message.rateNames.eventSpaceTotal": "Event Space Total",
+      "message.rateNames.eventSpaceTaxAndServiceCharge": "Event Space Tax and Service Charge",
+      "message.rateNames.eventSpaceRental": "Event Space Rental",
+      "message.rateNames.guestRoomsNum": "Guest Rooms ({num})",
+      "message.rateNames.deposit": "Deposit",
+      "message.rateNames.depositDue": "Deposit Due",
+      "message.rateNames.depositPaid": "Deposit Paid",
+      "message.rateNames.amountDue": "Amount Due",
+      "message.rateNames.guestRooms": "Guest Rooms",
+      "message.rateNames.guestRoomTotal": "Guest Room Total",
+      "message.rateNames.guestRoomsTotal": "Guest Rooms Total",
+      "message.rateNames.guestRoomTax": "Guest Room Tax",
+      "message.rateNames.guestRoomFees": "Guest Room Fees",
+      "message.rateNames.eventSpaceTaxesAndFees": "Event Space Taxes & Fees",
+      "message.rateNames.foodAndBeverageTaxesAndFees": "Food & Beverage Taxes & Fees",
+      "message.rateNames.foodAndBeverageTotal": "Food & Beverage Total",
+      "message.rateNames.salesTax": "Sales Tax",
+      "message.rateNames.serviceCharge": "Service Charge",
+      "message.rateNames.serviceChargeStar": "Service Charge*",
+      "message.rateNames.serviceChargeDoubleStar": "Service Charge**",
+      "message.rateNames.serviceChargesAndAdminFees": "Service Charges & Administrative Fees",
+      "message.rateNames.serviceChargeSalesTax": "Service Charge Sales Tax",
+      "message.rateNames.serviceChargeDisclaimer": "Includes {serviceCharge}% service charge distributed to staff",
+      "message.rateNames.adminFeeDisclaimer": "and {adminFee}% admin fee",
+      "message.rateNames.guestRoomTaxAndFees": "Guest Rooms Taxes & Fees",
+      "message.rateNames.discountPercentage": "{percentage} Discount",
+      "message.rateNames.finalCost": "Final Cost",
+      "message.rateNames.finalTaxesAndCost": "Final Taxes & Cost",
+      "message.rateNames.taxAndServiceChargeGuestRooms": "Tax & Service Charge Guest Rooms",
+      "message.rateNames.taxAndServiceChargeEventSpace": "Tax & Service Charge Event Space",
+      "message.rateNames.remainingBalance": "Remaining Balance",
+      "message.rateNames.promos.LTO_MEMBER_SAVE": "Members save more",
+      "message.rateNames.promos.LTO_10OFF": "10% off applied",
+      "message.rateNames.promos.LTO_15OFF": "15% off applied",
+      "message.rateNames.promos.LTO_20OFF": "20% off applied",
+      "message.rateNames.promos.LTO_25OFF": "25% off applied",
+      "message.rateNames.promos.FREE_NIGHT_3": "Stay 2 nights, 3rd free",
+      "message.rateNames.promos.FREE_NIGHT_4": "Stay 3 nights, 4th free",
+      "message.rateNames.promos.FREE_NIGHT_5": "Stay 4 nights, 5th free",
+      "message.rateNames.promos.FREE_NIGHT_6": "Stay 5 nights, 6th free",
+      "message.rateNames.promos.FREE_NIGHT_7": "Stay 6 nights, 7th free",
+      "message.rateNames.promos.FREE_NIGHT_8": "Stay 7 nights, 8th free",
+      "message.rateNames.offers.stay": "Stay {stayNight} nights, {freeNight} free",
+      "message.rateNames.offers.off": "Book Now & Save {percent}",
+      "message.rateNames.offers.credit": "{amount} Hotel Credit",
+      "message.rateMessages.redeemPoints": "Plans might change? Cancel up to two days prior to check-in to avoid a one night fee.",
+      "message.rateMessages.pointsCash": "Cancel up to two days prior to check-in to avoid 1 night fee.",
+      "message.rateMessages.wohPrepay": "Exclusively for members: prepay before your stay. Nonrefundable, no changes.",
+      "message.rateMessages.wohFlexible": "Exclusively for members: flexible cancellation; pay at hotel checkout.",
+      "message.rateMessages.wohFlexibleWithDeposit": "Exclusively for members: flexible cancellation; deposit required.",
+      "message.rateMessages.wohDoublePoints": "Earn twice the points and enjoy free nights sooner.",
+      "message.rateMessages.wohGuaranteedAvailability": "Exclusively for elite members: ensures room availability when hotel is sold out.",
+      "message.rateMessages.prepay": "Save more when you prepay before your stay. Non-refundable. No changes.",
+      "message.rateMessages.excludesTaxesAndFees": "Excludes taxes and fees",
+      "message.rateMessages.finalizedAfterEventSetup": "Rate will be finalized after Event Setup",
+      "message.rateMessages.flexible": "Flexible cancellation: pay at hotel checkout.",
+      "message.rateMessages.flexibleWithDeposit": "Flexible cancellation: deposit required.",
+      "message.rateMessages.paymentHotelCurrencyNotification": "Changes in booking details will affect the total price. Your payment will be processed in the hotel’s currency ({currencyCode}). Foreign transaction fees may apply.",
+      "message.rateMessages.paymentNotification": "Listed prices are subject to change in the event of a change in booking details. Your payment will be processed in your local currency ({currencyCode}). Foreign transaction fees may apply.",
+      "message.rateMessages.paymentNotificationShort": "Changes in booking details will affect the total price.",
+      "message.rateMessages.paymentNoticeHeadLine": "Total charges are subject to change",
+      "message.rateMessages.promotion": "Save more and take the vacation of your dreams. Non-refundable, no changes.",
+      "message.rateMessages.promotionalRate": "Book now and save!",
+      "message.rateMessages.priceToBeFinalizedWithHotel": "Price to be finalized with hotel.",
+      "message.rateMessages.continueOrBack": "Continue with a refreshed room rate or go back to search results.",
+      "message.rateMessages.rateExpired": "Your rate has expired",
+      "message.rateMessages.resortCredit": "Receive a $100 resort credit to spend at Hyatt outlets during your stay.",
+      "message.rateMessages.redeemPointsInStandardRoom": "Redeem your points for a free night in a standard room.",
+      "message.rateMessages.redeemPointsInClubRoom": "Redeem your points for a free night in a club room.",
+      "message.rateMessages.roomAvailability": "Room availability is subject to change.",
+      "message.rateMessages.pointsCashInStandardRoom": "Combine your points + cash for a free night in a standard room.",
+      "message.rateMessages.cashPoints": "Redeem your points for a guaranteed upgrade to a club room.",
+      "message.rateMessages.award": "Use an award for a free night in a standard room.",
+      "message.rateMessages.senior": "Let us care for you so you can be your best — for guests 62 and older.",
+      "message.rateMessages.government": "Active government or military identification is required at time of check-in.",
+      "message.rateMessages.aaa": "Exclusive for AAA/CAA Members. Just present your membership card at check-in.",
+      "message.rateMessages.veteran": "Honoring U.S. veterans, service members, and immediate family members.",
+      "message.rateMessages.offerCode": "The special offer code, <strong>{code}</strong>, has been applied.",
+      "message.rateMessages.groupCode": "The corporate or group code, <strong>{code}</strong>, has been applied.",
+      "message.rateMessages.theReserve": "A dedicated entrance, private check-in and 24-hour butler service are among the exclusive amenities.",
+      "message.rateMessages.thirdNightFree": "Extend your stay with a complimentary night. Receive every 3rd consecutive night free. Prepayment is required and non-refundable.",
+      "message.rateMessages.offers.stay": "Extend your stay with a complimentary night. Prepayment is required and non-refundable.",
+      "message.rateMessages.offers.off": "Save more when you prepay before your stay. Prepayment is non-refundable.",
+      "message.rateMessages.offers.credit": "Receive a {amount} hotel credit to spend during your stay. Prepayment is required and non-refundable.",
+      "message.rateRedemptionMessages.award": "Redeeming Free Night Award",
+      "message.rateRedemptionMessages.redeemPoints": "Redeeming {points} Points",
+      "message.rateRedemptionMessages.pointsCash": "Redeeming {points} Points",
+      "message.rateRedemptionMessages.cashPoints": "Redeeming {points} Points",
+      "message.rateRedemptionMessages.wohPrepay": "Just for Members - only on Hyatt.com!",
+      "message.rateRedemptionMessages.wohFlexible": "Just for Members - only on Hyatt.com!",
+      "message.rateRedemptionMessages.wohFlexibleWithDeposit": "Just for Members - only on Hyatt.com!",
+      "message.rateRedemptionMessages.wohDoublePoints": "Got it!",
+      "message.rateRedemptionMessages.wohGuaranteedAvailability": "Just for Members - only on Hyatt.com!",
+      "message.rateRedemptionMessages.prepay": "Pay now, save now!",
+      "message.rateRedemptionMessages.flexible": "Got it!",
+      "message.rateRedemptionMessages.promotion": "Offer selected!",
+      "message.rateRedemptionMessages.promotionalRate": "Got it!",
+      "message.rateRedemptionMessages.theReserve": "Got it!",
+      "message.rateRedemptionMessages.resortCredit": "Got it!",
+      "message.rateRedemptionMessages.thirdNightFree": "Offer selected!",
+      "message.rateCalendarMessages.availabilityDependency": "See how many points you'd need to redeem a free night award at this location. Note: calendar does not reflect actual award availability",
+      "message.rateCalendarMessages.getStartedCheckin": "Get started with a check-in date and room information",
+      "message.rateCalendarMessages.roomTypes.STANDARD_ROOM": "Standard Room",
+      "message.rateCalendarMessages.roomTypes.STANDARD_ROOM_2": "Standard Room – 2 Adults",
+      "message.rateCalendarMessages.roomTypes.STANDARD_ROOM_3": "Standard Room – 3 Adults",
+      "message.rateCalendarMessages.roomTypes.STANDARD_ROOM_4": "Standard Room – 4 Adults",
+      "message.rateCalendarMessages.roomTypes.CLUB": "Regency/Grand Club",
+      "message.rateCalendarMessages.roomTypes.CLUB_2": "Regency/Grand Club – 2 Adults",
+      "message.rateCalendarMessages.roomTypes.CLUB_3": "Regency/Grand Club – 3 Adults",
+      "message.rateCalendarMessages.roomTypes.CLUB_4": "Regency/Grand Club – 4 Adults",
+      "message.rateCalendarMessages.roomTypes.STANDARD_SUITE": "Standard Suite",
+      "message.rateCalendarMessages.roomTypes.STANDARD_SUITE_2": "Standard Suite – 2 Adults",
+      "message.rateCalendarMessages.roomTypes.STANDARD_SUITE_3": "Standard Suite – 3 Adults",
+      "message.rateCalendarMessages.roomTypes.STANDARD_SUITE_4": "Standard Suite – 4 Adults",
+      "message.rateCalendarMessages.roomTypes.PREMIUM_SUITE": "Premium Suite",
+      "message.rateCalendarMessages.roomTypes.PREMIUM_SUITE_2": "Premium Suite - 2 Adults",
+      "message.rateCalendarMessages.roomTypes.PREMIUM_SUITE_3": "Premium Suite - 3 Adults",
+      "message.rateCalendarMessages.roomTypes.PREMIUM_SUITE_4": "Premium Suite - 4 Adults",
+      "message.rateCalendarMessages.roomTypes.UPGRADE_CLUB": "Club Access Award",
+      "message.rateCalendarMessages.roomTypes.UPGRADE_STANDARD_SUITE": "Suite Upgrade Award",
+      "message.rateCalendarMessages.roomTypes.UPGRADE_PREMIUM_SUITE": "Premium Suite Upgrade",
+      "message.rateCalendarMessages.beginCheckin": "Begin by choosing stay details and check-in date",
+      "message.rateCalendarMessages.currentBalance": "Your points balance: {currentBalance}",
+      "message.rateCalendarMessages.remainingBalance": "Remaining points:",
+      "message.rateCalendarMessages.disclaimer": "Points will be deducted from your account when the reservation is confirmed. Cash values are {percent}% of the standard rate."
+    },
+    "locale": "en-US",
+    "supportedLocales": {
+      "en-US": "/en-US/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "es-ES": "/es-ES/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "de-DE": "/de-DE/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "fr-FR": "/fr-FR/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "ja-JP": "/ja-JP/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "ko-KR": "/ko-KR/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "pt-PT": "/pt-PT/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "ru-RU": "/ru-RU/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "zh-CN": "/zh-CN/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+      "zh-HK": "/zh-HK/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true"
+    },
+    "ui": {
+      "version": "12.0.0",
+      "designSystem": "css",
+      "brand": "world",
+      "host": "//www.hyatt.com/hds",
+      "assetsDir": "/explore-hotels/map/assets",
+      "bookends": {
+        "enabled": true,
+        "host": "www.hyatt.com",
+        "version": "1.latest"
+      },
+      "bridge": {
+        "version": "1.0.0"
+      },
+      "favicons": {
+        "version": "1.latest",
+        "root": "https://www.hyatt.com/hds"
+      },
+      "icons": {
+        "version": "1.9.0",
+        "root": "https://www.hyatt.com/hds",
+        "filename": "icons.min.css",
+        "integrity": "sha384-tLa9tTs1REfe8wZVfmF3BllDtt4gg7llwSG2ortx0RDHu7nI8H2BG5aZwmor6Ycv"
+      },
+      "images": {
+        "version": "4.6.0",
+        "root": "https://www.hyatt.com/hds"
+      },
+      "sri": {
+        "bellhopMinCss": "sha384-lUMLWgXtftuSPc/zpW++JHbepSWsq+dck8wci5AXG+EZq2nllJfwG6/4xOQ4aXAF",
+        "bridgeMinCss": "sha384-abqwic5r+dJ2Yn34pat9xXtirAn5jvqj00nYZnOC3HX+GNw/8S42YXDKEv7Fp7LF",
+        "bellhopMinJs": "sha384-fnZo948HdCG3LWclptGQw9L8H/43l6wasM9zbQkd7cp8i06Iqg101vTAJ34Ixvde",
+        "iconsMinCss": "sha384-GoJq6p94yYvUjvAtdbNes+0yrolSVmknGIsxM6sLJhQ1pbuSteZFnpIXtlhGYF6U"
+      },
+      "signinLastname": true,
+      "target": {
+        "host": "www.hyatt.com"
+      },
+      "elements": {
+        "host": "www.hyatt.com",
+        "version": "0.37.0",
+        "brand": "world-2024"
+      },
+      "theme": {
+        "version": "v3",
+        "brand": "world",
+        "host": "www.hyatt.com",
+        "branch": "main"
+      },
+      "domain": "hyatt.com",
+      "hostTheme": "www.hyatt.com",
+      "corePath": "//www.hyatt.com/hds/css/12.0.0",
+      "morePath": "/explore-hotels/map/assets",
+      "timestamp": "2026-06-20T08:09:03.088Z",
+      "assets": {
+        "main": {
+          "js": [
+            {
+              "path": "/explore-hotels/map/assets/main.4415618e.js",
+              "integrity": "sha384-/t2ooVkZ+xu2yd6o1rUMcH1+TlhtWAgk4uqV80SLxy7rN0TxPHow6TpWgPDa3oTh"
+            }
+          ],
+          "css": [
+            {
+              "path": "/explore-hotels/map/assets/main.8ae9bbd6.css",
+              "integrity": "sha384-gqD1ocY/qMTM05I3HioxvMKoUFb4ynamlUCz48F2daim8dDzpvDAtZXPNAorP+Bt"
+            }
+          ]
+        }
+      }
+    },
+    "profile": {
+      "form": {
+        "csrf": 9168390,
+        "name": {
+          "errorUrl": "error_url",
+          "temporaryUrl": "temporary_url",
+          "returnUrl": "return_url",
+          "signoutReturnUrl": "return_url",
+          "rememberMe": "remember"
+        },
+        "value": {
+          "postUrl": "https://www.hyatt.com/auth/web/login",
+          "errorUrl": "https://world.hyatt.com/content/gp/en/signin-error.html",
+          "temporaryUrl": "https://world.hyatt.com/content/gp/en/signin-temp.html",
+          "returnUrl": "https://www.hyatt.com/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+          "signoutReturnUrl": "https://www.hyatt.com/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+          "rememberMe": "true"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+name: hyatt
+description: "Check World of Hyatt points-calendar availability from Hyatt calendar pages"
+version: "0.1.0"
+category: travel
+base_url: "https://www.hyatt.com"
+http_transport: browser-chrome
+health_check_path: "/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true"
+auth:
+  type: none
+auth_warnings:
+  - "Direct HTTP and Surf probes returned 403/429 bot-protection responses; browser capture succeeded with a real Chrome profile. Generation must pass traffic-analysis.json so the CLI can emit browser-clearance-compatible runtime behavior and Chrome cookie import where supported."
+resources:
+  calendars:
+    description: "Fetch Hyatt Points Calendar HTML pages"
+    endpoints:
+      get:
+        method: GET
+        path: "/explore-hotels/rate-calendar"
+        description: "Fetch a Hyatt Points Calendar page for a hotel spirit code"
+        params:
+          - name: spiritCode
+            flag_name: spirit-code
+            type: string
+            required: true
+            description: "Hyatt hotel spirit code, such as kulal for Alila Bangsar Kuala Lumpur"
+          - name: startDate
+            flag_name: start-date
+            type: string
+            format: date
+            description: "Check-in date in YYYY-MM-DD format"
+          - name: endDate
+            flag_name: end-date
+            type: string
+            format: date
+            description: "Checkout date in YYYY-MM-DD format. Hyatt availability can differ by length of stay, so this must be treated as part of the search identity rather than a display-only field."
+          - name: rooms
+            type: int
+            default: 1
+            description: "Number of rooms"
+          - name: adults
+            type: int
+            default: 1
+            description: "Number of adult guests"
+          - name: kids
+            type: int
+            default: 0
+            description: "Number of child guests"
+          - name: rate
+            type: string
+            default: "Standard"
+            description: "Hyatt rate selector, usually Standard for points calendars"
+          - name: roomCategory
+            flag_name: room-category
+            type: string
+            default: "STANDARD_ROOM"
+            description: "Hyatt points-calendar room category"
+          - name: vrcEnabled
+            flag_name: vrc-enabled
+            type: bool
+            default: true
+            description: "Enable Hyatt variable redemption calendar"
+        response_format: html
+        html_extract:
+          mode: page
+        response:
+          type: object
+          item: CalendarPage
+  hotels:
+    description: "Fetch Hyatt property metadata used to resolve city searches into hotel spirit codes"
+    endpoints:
+      list:
+        method: GET
+        path: "/explore-hotels/service/hotels"
+        description: "Fetch Hyatt hotel metadata, including names, locations, categories, and spirit codes"
+        response_format: json
+        response:
+          type: array
+          item: Hotel
+types:
+  CalendarPage:
+    fields:
+      - name: title
+        type: string
+        description: "HTML page title"
+      - name: text
+        type: string
+        description: "Extracted page text"
+      - name: nights
+        type: int
+        description: "Derived length of stay from startDate to endDate; availability can differ for 1-night versus multi-night searches"
+  Hotel:
+    fields:
+      - name: spiritCode
+        type: string
+        description: "Hyatt hotel spirit code used by rate-calendar and shop URLs"
+      - name: name
+        type: string
+        description: "Hotel display name"
+      - name: city
+        type: string
+        description: "Hotel city"
+      - name: state
+        type: string
+        description: "Hotel state or province"
+      - name: country
+        type: string
+        description: "Hotel country"
+      - name: category
+        type: string
+        description: "World of Hyatt award category when present"

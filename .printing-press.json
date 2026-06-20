@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-20T22:47:08.935033Z",
+  "printing_press_version": "4.24.0",
+  "api_name": "hyatt",
+  "display_name": "World of Hyatt",
+  "cli_name": "hyatt-pp-cli",
+  "creator": {
+    "handle": "jiahongc",
+    "name": "Jiahong Chen"
+  },
+  "owner": "jiahongc",
+  "printer": "jiahongc",
+  "printer_name": "Jiahong Chen",
+  "spec_path": "hyatt-browser-sniff-spec.yaml",
+  "spec_format": "internal",
+  "spec_checksum": "sha256:afe53fc31a9864d5833b2fee49e9244dbbc942f664203feab4325f36533e14d8",
+  "run_id": "20260620-182255-785c0ab6",
+  "category": "travel",
+  "description": "Hyatt award availability as a scriptable, local, agent-readable CLI.",
+  "mcp_binary": "hyatt-pp-mcp",
+  "mcp_tool_count": 2,
+  "mcp_ready": "partial",
+  "api_version": "0.1.0",
+  "auth_type": "cookie",
+  "auth_env_vars": [
+    "HYATT_COOKIES"
+  ],
+  "novel_features": [
+    {
+      "name": "Certificate fit finder",
+      "command": "awards certificate-fit",
+      "description": "Find available Hyatt award nights that fit a Cat 1-4 or Cat 1-7 certificate before it expires."
+    },
+    {
+      "name": "Flexible density matrix",
+      "command": "awards density",
+      "description": "Show which dates or weeks have the most Hyatt award options across a hotel shortlist."
+    },
+    {
+      "name": "Split-stay builder",
+      "command": "awards split-stay",
+      "description": "Build viable multi-hotel Hyatt itineraries when no one property has the full stay."
+    },
+    {
+      "name": "Watch volatility ranking",
+      "command": "watch volatility",
+      "description": "Rank watched Hyatt hotels by how often award space opens, closes, or changes price."
+    },
+    {
+      "name": "Off-peak opportunity finder",
+      "command": "awards offpeak",
+      "description": "Find off-peak or unusually low-point Hyatt award clusters across synced calendar data."
+    },
+    {
+      "name": "Room-category ladder",
+      "command": "awards room-ladder",
+      "description": "Compare standard, club, and suite award availability side by side for one Hyatt stay window."
+    },
+    {
+      "name": "Snapshot coverage audit",
+      "command": "awards coverage",
+      "description": "Show stale, missing, or uneven local Hyatt calendar coverage before trusting a scan."
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "version": "1",
+  "summary": {
+    "target_url": "https://www.hyatt.com/explore-hotels/rate-calendar?spiritCode=kulal&startDate=2026-09-01&endDate=2026-09-02&rooms=1&adults=1&kids=0&rate=Standard&vrcEnabled=true",
+    "captured_at": "2026-06-20T22:34:00Z",
+    "entry_count": 2,
+    "api_entry_count": 1,
+    "noise_entry_count": 1,
+    "host_distribution": {
+      "www.hyatt.com": 1,
+      "l.contentsquare.net": 1
+    },
+    "time_start": "2026-06-20T22:29:00Z",
+    "time_end": "2026-06-20T22:34:00Z"
+  },
+  "reachability": {
+    "mode": "browser_clearance_http",
+    "confidence": 0.8,
+    "reasons": [
+      "cli-printing-press probe-reachability returned browser_clearance_http for Hyatt homepage and rate-calendar URL",
+      "direct fetches returned Hyatt E6020 or 429/403 pages",
+      "browser-use with headed Chrome profile loaded a real Points Calendar page and exposed window.STORE days"
+    ],
+    "evidence": [
+      {
+        "entry_index": 0,
+        "method": "GET",
+        "host": "www.hyatt.com",
+        "path": "/explore-hotels/rate-calendar",
+        "status": 200,
+        "content_type": "text/html",
+        "reason": "real browser profile captured page with window.STORE calendar data"
+      }
+    ],
+    "impersonation_safe": false
+  },
+  "protocols": [
+    {
+      "label": "html-embedded-state",
+      "confidence": 0.9,
+      "evidence": [
+        "Hyatt Points Calendar page embeds window.STORE with spiritCode, startDate, endDate, occupancy, rate, roomCategory, responseInfo, and days keyed by date."
+      ],
+      "details": {
+        "state_global": "window.STORE",
+        "calendar_field": "days"
+      }
+    }
+  ],
+  "auth": {
+    "candidates": [],
+    "captcha_preflight": false
+  },
+  "protections": [
+    {
+      "label": "hyatt-browser-clearance",
+      "confidence": 0.8,
+      "evidence": [
+        "Direct fetch returned Hyatt E6020 error page.",
+        "Stdlib and Surf reachability probes both received 403/429 access-denied HTML."
+      ],
+      "notes": [
+        "The user can log in, but reported Hyatt's session window is short. Discovery should not assume durable browser-login state."
+      ]
+    }
+  ],
+  "secondary_hosts": [
+    {
+      "host": "l.contentsquare.net",
+      "count": 1,
+      "reason": "telemetry host"
+    }
+  ],
+  "endpoint_clusters": [
+    {
+      "host": "www.hyatt.com",
+      "method": "GET",
+      "path": "/explore-hotels/rate-calendar",
+      "count": 1,
+      "statuses": [200],
+      "content_types": ["text/html"],
+      "size_class": "large",
+      "request_shape": {
+        "kind": "query",
+        "fields": [
+          {"name": "spiritCode", "type": "string", "required": true},
+          {"name": "startDate", "type": "string", "required": false, "format": "date"},
+          {"name": "endDate", "type": "string", "required": false, "format": "date"},
+          {"name": "rooms", "type": "integer", "required": false},
+          {"name": "adults", "type": "integer", "required": false},
+          {"name": "kids", "type": "integer", "required": false},
+          {"name": "rate", "type": "string", "required": false},
+          {"name": "vrcEnabled", "type": "boolean", "required": false}
+        ]
+      },
+      "response_shape": {
+        "kind": "html-embedded-json",
+        "fields": [
+          {"name": "window.STORE.spiritCode", "type": "string"},
+          {"name": "window.STORE.days", "type": "object"},
+          {"name": "window.STORE.days.<date>.<roomCategory>.pointsValue", "type": "array"},
+          {"name": "window.STORE.days.<date>.<roomCategory>.pointsLevel", "type": "string"},
+          {"name": "window.STORE.responseInfo", "type": "string"}
+        ]
+      },
+      "evidence": [
+        {
+          "entry_index": 0,
+          "method": "GET",
+          "host": "www.hyatt.com",
+          "path": "/explore-hotels/rate-calendar",
+          "status": 200,
+          "content_type": "text/html",
+          "reason": "browser-use page state contained 37 day entries for kulal"
+        }
+      ]
+    }
+  ],
+  "request_sequences": [
+    {
+      "label": "points-calendar-open",
+      "confidence": 0.9,
+      "evidence": [
+        "Open Hyatt rate-calendar page with a hotel spiritCode and future dates; extract window.STORE.days from the document."
+      ],
+      "notes": [
+        "Changing visible month controls mutated client state but did not fire first-party XHR after interceptors were installed; the initial HTML state is the useful replayable surface."
+      ]
+    }
+  ],
+  "pagination": [],
+  "candidate_commands": [
+    {
+      "name": "calendar",
+      "resource": "calendars",
+      "confidence": 0.9,
+      "rationale": "Fetch and parse a Hyatt Points Calendar page for one hotel spirit code."
+    },
+    {
+      "name": "scan",
+      "resource": "calendars",
+      "confidence": 0.8,
+      "rationale": "Repeat calendar fetches across multiple spirit codes and date windows to find points availability."
+    }
+  ],
+  "generation_hints": [
+    "Pass this traffic-analysis file during generation so browser_clearance_http is preserved.",
+    "Add a hand-authored parser that extracts the JavaScript assignment window.STORE = {...}; from HTML and emits normalized availability rows.",
+    "Treat direct HTTP 403/429 as expected unless Chrome-cookie replay also fails."
+  ],
+  "warnings": [
+    {
+      "type": "html-state-not-standard-json-script",
+      "message": "The calendar payload is a JavaScript assignment, not script#__NEXT_DATA__; built-in embedded-json extraction may not parse it without hand code.",
+      "confidence": 0.9
+    }
+  ]
+}
