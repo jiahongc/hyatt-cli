@@ -13,7 +13,9 @@ hyatt-cli agent-context --pretty
 
 Live Hyatt metadata and rate-calendar calls are browser-backed by default. Do not start by debugging cookies or raw HTTP. Make sure `browser-use` is on `PATH`; only use `HYATT_TRANSPORT=http` when explicitly debugging direct HTTP behavior.
 
-The default browser transport reuses one headed `browser-use` session named `hyatt-cli` and navigates the existing tab between Hyatt URLs. Do not close that session between calls unless you need to reset it. `HYATT_BROWSER_HEADLESS=true` is available as an opt-in experiment, but Hyatt may block basic headless mode.
+The default browser transport reuses one headed `browser-use` session named `hyatt-cli` and navigates the existing tab between Hyatt URLs. On macOS it minimizes Hyatt Chrome windows after navigation by default; set `HYATT_BROWSER_BACKGROUND=0` only when you need to watch the browser. Do not close that session between calls unless you need to reset it. `HYATT_BROWSER_HEADLESS=true` is available as an opt-in experiment, but Hyatt may block basic headless mode.
+
+Hyatt hotel metadata from `/explore-hotels/service/hotels` is cache-backed because it changes slowly. In default `auto` mode, reuse the local cache for city resolution and `hyatt-cli hotels`; only pass `--data-source live` when you intentionally need a fresh hotel list. `--no-cache` bypasses reads and writes, and `HYATT_HOTELS_CACHE_MAX_AGE=0` disables the hotel metadata freshness shortcut.
 
 Use runtime discovery instead of relying on a copied command list:
 
@@ -42,6 +44,13 @@ Fast command choice:
 - One hotel/date window: `hyatt-cli calendars --spirit-code <code> --start-date <in> --end-date <out> --room-category STANDARD_ROOM --json --select spiritCode,nights,roomCategory,days`
 - Known hotel codes: `hyatt-cli scan hotel --hotels <codes> --start <date> --end <date> --nights <n> --room-categories STANDARD_ROOM --json --select spiritCode,date,nights,roomCategory,isStandardRoom,available,pointsValue`
 - City-wide scan: `hyatt-cli scan city --city "<city>" --start <date> --end <date> --nights <n> --room-categories STANDARD_ROOM --json --timeout 360s --select spiritCode,date,nights,roomCategory,isStandardRoom,available,pointsValue`
+
+Speed rules:
+
+- Keep the `hyatt-cli` browser-use session warm across related calls.
+- Resolve a city once with cached hotel metadata, then scan selected spirit codes with `scan hotel`.
+- Batch hotel codes in one command instead of looping in the agent.
+- Always pass `--select`; avoid asking for full calendar payloads unless needed.
 
 Before running an unfamiliar command that may mutate remote state, inspect its help and prefer a dry run:
 

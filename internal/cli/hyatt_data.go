@@ -2,6 +2,7 @@ package cli
 
 import (
 	"bytes"
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -15,6 +16,8 @@ import (
 	"github.com/jiahongc/hyatt-cli/internal/store"
 	"github.com/spf13/cobra"
 )
+
+const defaultHyattHotelsCacheMaxAge = 24 * time.Hour
 
 type hyattHotel struct {
 	Name       string `json:"name,omitempty"`
@@ -368,6 +371,106 @@ func localHyattHotelsFromStore(db *store.Store) ([]hyattHotel, error) {
 		return hotels[i].City < hotels[j].City
 	})
 	return hotels, nil
+}
+
+func freshCachedHyattHotels(ctx context.Context, flags *rootFlags, dbPath string) ([]hyattHotel, DataProvenance, bool) {
+	if flags != nil && (flags.noCache || flags.dataSource != "auto") {
+		return nil, DataProvenance{}, false
+	}
+	maxAge := hyattHotelsCacheMaxAge()
+	if maxAge <= 0 {
+		return nil, DataProvenance{}, false
+	}
+	dbPath = hyattDBPath(dbPath)
+	if _, err := os.Stat(dbPath); err != nil {
+		return nil, DataProvenance{}, false
+	}
+	db, err := store.OpenReadOnly(dbPath)
+	if err != nil {
+		return nil, DataProvenance{}, false
+	}
+	defer db.Close()
+	state, err := readSyncHintState(db, "hotels")
+	if err != nil || !state.hasState {
+		return nil, DataProvenance{}, false
+	}
+	if age := time.Since(state.lastSynced); age > maxAge {
+		return nil, DataProvenance{}, false
+	}
+	hotels, err := localHyattHotelsFromStore(db)
+	if err != nil || len(hotels) == 0 {
+		return nil, DataProvenance{}, false
+	}
+	prov := DataProvenance{
+		Source:       "local",
+		Reason:       "hyatt_hotels_cache",
+		ResourceType: "hotels",
+		SyncedAt:     &state.lastSynced,
+	}
+	return hotels, attachFreshness(prov, flags), true
+}
+
+func writeHyattHotelsCache(ctx context.Context, flags *rootFlags, dbPath string, hotels []hyattHotel) {
+	if flags != nil && flags.noCache {
+		return
+	}
+	items := hyattHotelCacheItems(hotels)
+	if len(items) == 0 {
+		return
+	}
+	db, err := store.OpenWithContext(ctx, hyattDBPath(dbPath))
+	if err != nil {
+		return
+	}
+	defer db.Close()
+	stored, _, err := db.UpsertBatch("hotels", items)
+	if err != nil || stored == 0 {
+		return
+	}
+	_ = db.SaveSyncState("hotels", "", stored)
+}
+
+func hyattDBPath(dbPath string) string {
+	if strings.TrimSpace(dbPath) == "" {
+		return defaultDBPath("hyatt-cli")
+	}
+	return dbPath
+}
+
+func hyattHotelsCacheMaxAge() time.Duration {
+	raw := strings.TrimSpace(os.Getenv("HYATT_HOTELS_CACHE_MAX_AGE"))
+	if raw == "" {
+		return defaultHyattHotelsCacheMaxAge
+	}
+	maxAge, err := time.ParseDuration(raw)
+	if err != nil {
+		return defaultHyattHotelsCacheMaxAge
+	}
+	return maxAge
+}
+
+func hyattHotelCacheItems(hotels []hyattHotel) []json.RawMessage {
+	items := make([]json.RawMessage, 0, len(hotels))
+	for _, hotel := range hotels {
+		if strings.TrimSpace(hotel.SpiritCode) == "" {
+			continue
+		}
+		data, err := json.Marshal(hotel)
+		if err != nil {
+			continue
+		}
+		var obj map[string]any
+		if err := json.Unmarshal(data, &obj); err != nil {
+			continue
+		}
+		obj["id"] = hotel.SpiritCode
+		item, err := json.Marshal(obj)
+		if err != nil {
+			continue
+		}
+		items = append(items, item)
+	}
+	return items
 }
 
 func normalizeHyattHotelsData(raw json.RawMessage) (json.RawMessage, bool) {

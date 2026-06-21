@@ -12,7 +12,7 @@ Hyatt commonly returns HTTP 403 to raw programmatic requests for the hotel metad
 hyatt-cli command -> browser-use loads Hyatt page -> CLI extracts page JSON/window.STORE -> normalized JSON output
 ```
 
-That means live searches require `browser-use` on `PATH`. By default the CLI uses one reusable headed browser session named `hyatt-cli`; it navigates the existing tab between Hyatt URLs instead of opening and closing a new browser for every hotel.
+That means live searches require `browser-use` on `PATH`. By default the CLI uses one reusable headed browser session named `hyatt-cli`; it navigates the existing tab between Hyatt URLs instead of opening and closing a new browser for every hotel. On macOS, the CLI also minimizes Hyatt Chrome windows after navigation so the session stays out of the way.
 
 ```bash
 pipx install browser-use
@@ -32,8 +32,10 @@ Useful transport env vars:
 | `HYATT_TRANSPORT` | `browser` | Set `http` or `direct` only to debug raw HTTP. |
 | `HYATT_BROWSER_SESSION` | `hyatt-cli` | Browser-use session name. |
 | `HYATT_BROWSER_PROFILE` | unset | Optional browser-use profile. Leave unset unless that profile is known to work. |
+| `HYATT_BROWSER_BACKGROUND` | enabled | On macOS, minimize Hyatt Chrome windows after navigation. Set `0` to leave the window visible. |
 | `HYATT_BROWSER_HEADLESS` | unset | Set `true` to try hidden/headless browser mode. Hyatt may block this. |
 | `HYATT_BROWSER_FALLBACK` | enabled | Set `0` to disable browser fallback. |
+| `HYATT_HOTELS_CACHE_MAX_AGE` | `24h` | Freshness window for the slow-changing Hyatt hotel metadata cache. Set `0` to force live refreshes in `auto` mode. |
 | `HYATT_COOKIES` | unset | Optional raw Cookie header for direct HTTP debugging. Not required for normal browser-backed searches. |
 
 Close the reusable browser session when done:
@@ -42,7 +44,9 @@ Close the reusable browser session when done:
 browser-use --session hyatt-cli close
 ```
 
-Headless note: basic headless Chromium hit Hyatt's "browser did something unexpected" page during verification, so the default remains headed. The UX fix is session reuse, not fully invisible browsing.
+Headless note: basic headless Chromium hit Hyatt's "browser did something unexpected" page during verification, so the default remains headed. The UX fix is session reuse plus minimizing/backgrounding the Hyatt window.
+
+Hotel metadata note: `https://www.hyatt.com/explore-hotels/service/hotels` changes slowly, so `hyatt-cli hotels` and city resolution cache normalized hotel rows in the local SQLite store. Default `auto` mode reuses that cache for 24 hours before opening Hyatt again. Use `--data-source live` to force a refresh, `--no-cache` to bypass cache reads/writes, or `HYATT_HOTELS_CACHE_MAX_AGE=0` to disable this freshness shortcut.
 
 ## Install
 
@@ -129,9 +133,21 @@ Agent rules:
 - Parse data from `.results` when output is wrapped with provenance metadata.
 - Treat `.meta.source == "browser"` as normal for live Hyatt searches.
 - Do not chase `HYATT_COOKIES` unless explicitly debugging raw HTTP.
+- Let `auto` mode reuse cached hotel metadata; force `--data-source live` only when you need Hyatt's latest hotel list.
 - Avoid broad city scans when a user already supplied spirit codes; city scans open one browser-backed calendar page per hotel and room category.
 - Expect one reusable browser tab for live scans; do not close it between calls unless you need to reset the session.
+- On macOS, the CLI minimizes Hyatt Chrome windows by default. Set `HYATT_BROWSER_BACKGROUND=0` if you need to watch the browser.
 - Use `--timeout 120s` or higher for live browser-backed scans; use `--timeout 360s` for city scans.
+
+Fast path for agents:
+
+1. Keep the default `HYATT_BROWSER_SESSION=hyatt-cli` warm across related calls.
+2. If the user gave a city, run `hotels resolve-city` once; it uses cached hotel metadata when fresh.
+3. Prefer one `scan hotel --hotels code1,code2,...` call over many one-hotel calls.
+4. Select only needed fields, usually `spiritCode,date,nights,roomCategory,isStandardRoom,available,pointsValue,pointsLevel`.
+5. Do not close the browser-use session until the task is done.
+
+Measured on this Mac during verification: a cold two-hotel scan took about 5.3 seconds; a warm-session two-hotel scan took about 1.2 seconds.
 
 Fast command choice:
 

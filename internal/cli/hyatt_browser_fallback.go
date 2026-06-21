@@ -3,10 +3,13 @@ package cli
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"html"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 	"time"
 
@@ -34,6 +37,18 @@ func hyattBrowserCalendar(ctx context.Context, baseURL, path string, params map[
 
 	var lastErr error
 	for attempt := 0; attempt < 2; attempt++ {
+		if page, err := fetchHyattBrowserHTML(ctx, session, profile, targetURL, "window.STORE"); err == nil {
+			store, ok := extractHyattStoreFromHTML(page)
+			if ok {
+				data, marshalErr := json.Marshal(store)
+				if marshalErr == nil {
+					return data, nil
+				}
+			}
+			lastErr = fmt.Errorf("browser page did not expose parseable window.STORE")
+		} else {
+			lastErr = err
+		}
 		if err := navigateHyattBrowser(ctx, session, profile, targetURL); err != nil {
 			return nil, err
 		}
@@ -68,6 +83,11 @@ func hyattBrowserJSON(ctx context.Context, baseURL, path string, params map[stri
 	targetURL := htmlExtractionRequestURL(baseURL, path, params)
 	session := firstNonEmpty(os.Getenv("HYATT_BROWSER_SESSION"), "hyatt-cli")
 	profile := strings.TrimSpace(os.Getenv("HYATT_BROWSER_PROFILE"))
+	if page, err := fetchHyattBrowserHTML(ctx, session, profile, targetURL, "spiritCode"); err == nil {
+		if data, ok := extractJSONFromBrowserHTML(page); ok {
+			return data, nil
+		}
+	}
 	if err := navigateHyattBrowser(ctx, session, profile, targetURL); err != nil {
 		return nil, err
 	}
@@ -106,19 +126,60 @@ func requireHyattBrowserTransport() error {
 	return nil
 }
 
+func fetchHyattBrowserHTML(ctx context.Context, session, profile, targetURL, waitFor string) ([]byte, error) {
+	quotedURL, err := json.Marshal(targetURL)
+	if err != nil {
+		return nil, err
+	}
+	quotedWait, err := json.Marshal(waitFor)
+	if err != nil {
+		return nil, err
+	}
+	args := []string{"--session", session}
+	if !hyattBrowserHeadless() {
+		args = append(args, "--headed")
+	}
+	if profile != "" {
+		args = append(args, "--profile", profile)
+	}
+	code := fmt.Sprintf(`import base64, time
+browser.goto(%s)
+deadline = time.time() + 15
+needle = %s
+page = browser.html
+while needle not in page and time.time() < deadline:
+    time.sleep(0.1)
+    page = browser.html
+print(base64.b64encode(page.encode("utf-8")).decode("ascii"))`, string(quotedURL), string(quotedWait))
+	args = append(args, "python", code)
+	out, err := exec.CommandContext(ctx, "browser-use", args...).CombinedOutput()
+	if err != nil {
+		return nil, fmt.Errorf("browser python extraction failed: %w: %s", err, strings.TrimSpace(string(out)))
+	}
+	data, err := parseBrowserUseBase64Result(out)
+	if err != nil {
+		return nil, err
+	}
+	backgroundHyattBrowser(ctx)
+	return data, nil
+}
+
 func navigateHyattBrowser(ctx context.Context, session, profile, targetURL string) error {
 	if isBrowserUseSessionRunning(ctx, session) {
 		if err := navigateExistingBrowserUseSession(ctx, session, targetURL); err == nil {
+			backgroundHyattBrowser(ctx)
 			return nil
 		}
 	}
 	openArgs := browserUseOpenArgs(session, profile, targetURL)
 	out, err := exec.CommandContext(ctx, "browser-use", openArgs...).CombinedOutput()
 	if err == nil || isIgnorableBrowserNavigationAbort(out) {
+		backgroundHyattBrowser(ctx)
 		return nil
 	}
 	if bytes.Contains(out, []byte("already running with different config")) {
 		if navErr := navigateExistingBrowserUseSession(ctx, session, targetURL); navErr == nil {
+			backgroundHyattBrowser(ctx)
 			return nil
 		}
 	}
@@ -143,6 +204,38 @@ func hyattBrowserHeadless() bool {
 	default:
 		return false
 	}
+}
+
+func shouldBackgroundHyattBrowser() bool {
+	if hyattBrowserHeadless() {
+		return false
+	}
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("HYATT_BROWSER_BACKGROUND"))) {
+	case "0", "false", "no":
+		return false
+	default:
+		return true
+	}
+}
+
+func backgroundHyattBrowser(ctx context.Context) {
+	if runtime.GOOS != "darwin" || !shouldBackgroundHyattBrowser() {
+		return
+	}
+	bgCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
+	script := `tell application "Google Chrome"
+  repeat with w in windows
+    try
+      if (URL of active tab of w) contains "hyatt.com/explore-hotels" then
+        set minimized of w to true
+      end if
+    end try
+  end repeat
+end tell`
+	cmd := exec.CommandContext(bgCtx, "osascript")
+	cmd.Stdin = strings.NewReader(script)
+	_ = cmd.Run()
 }
 
 func isBrowserUseSessionRunning(ctx context.Context, session string) bool {
@@ -259,6 +352,41 @@ func parseBrowserUseJSONResult(out []byte) (json.RawMessage, error) {
 		return nil, fmt.Errorf("browser fallback returned invalid JSON: %s", truncateForError(text, 500))
 	}
 	return json.RawMessage(text), nil
+}
+
+func parseBrowserUseBase64Result(out []byte) ([]byte, error) {
+	text := strings.TrimSpace(string(out))
+	lines := strings.Split(text, "\n")
+	for i := len(lines) - 1; i >= 0; i-- {
+		line := strings.TrimSpace(strings.TrimPrefix(lines[i], "result:"))
+		if line == "" {
+			continue
+		}
+		data, err := base64.StdEncoding.DecodeString(line)
+		if err == nil {
+			return data, nil
+		}
+	}
+	return nil, fmt.Errorf("browser python extraction returned no base64 HTML")
+}
+
+func extractJSONFromBrowserHTML(raw []byte) (json.RawMessage, bool) {
+	text := strings.TrimSpace(string(raw))
+	if json.Valid([]byte(text)) {
+		return json.RawMessage(text), true
+	}
+	lower := strings.ToLower(text)
+	start := strings.Index(lower, "<pre>")
+	end := strings.LastIndex(lower, "</pre>")
+	if start < 0 || end <= start {
+		return nil, false
+	}
+	body := html.UnescapeString(text[start+len("<pre>") : end])
+	body = strings.TrimSpace(body)
+	if !json.Valid([]byte(body)) {
+		return nil, false
+	}
+	return json.RawMessage(body), true
 }
 
 func truncateForError(s string, limit int) string {

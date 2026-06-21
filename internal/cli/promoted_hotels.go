@@ -29,13 +29,21 @@ func newHotelsPromotedCmd(flags *rootFlags) *cobra.Command {
 			params := map[string]string{}
 			var data json.RawMessage
 			var prov DataProvenance
-			if !flags.dryRun && flags.dataSource != "local" && shouldUseHyattBrowserFirst() {
+			if !flags.dryRun {
+				if hotels, cacheProv, ok := freshCachedHyattHotels(cmd.Context(), flags, ""); ok {
+					if cachedData, marshalErr := json.Marshal(hotels); marshalErr == nil {
+						data = cachedData
+						prov = cacheProv
+					}
+				}
+			}
+			if data == nil && !flags.dryRun && flags.dataSource != "local" && shouldUseHyattBrowserFirst() {
 				data, err = hyattBrowserJSON(cmd.Context(), c.BaseURL, path, params)
 				if err != nil {
 					return apiErr(err)
 				}
 				prov = attachFreshness(DataProvenance{Source: "browser", Reason: "hyatt_browser_first", ResourceType: "hotels"}, flags)
-			} else {
+			} else if data == nil {
 				data, prov, err = resolveReadWithStrategy(cmd.Context(), c, flags, "auto", "hotels", true, path, params, nil, cmd.ErrOrStderr())
 				if err != nil {
 					fallbackData, attempted, fallbackErr := hyattBrowserJSONFallback(cmd.Context(), c.BaseURL, path, params, err)
@@ -51,6 +59,10 @@ func newHotelsPromotedCmd(flags *rootFlags) *cobra.Command {
 			}
 			if normalized, ok := normalizeHyattHotelsData(data); ok {
 				data = normalized
+				var hotels []hyattHotel
+				if json.Unmarshal(normalized, &hotels) == nil {
+					writeHyattHotelsCache(cmd.Context(), flags, "", hotels)
+				}
 			}
 			// Print provenance to stderr for human-facing output only.
 			// Machine-format flags (--json, --csv, --compact, --quiet, --plain,

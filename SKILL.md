@@ -41,7 +41,9 @@ pipx install browser-use
 hyatt-cli doctor --json
 ```
 
-The CLI reuses one headed `browser-use` session named `hyatt-cli` and navigates the existing tab between Hyatt URLs. Do not close it between related calls. `HYATT_BROWSER_HEADLESS=true` can try hidden mode, but Hyatt may block basic headless browsers.
+The CLI reuses one headed `browser-use` session named `hyatt-cli` and navigates the existing tab between Hyatt URLs. On macOS it minimizes Hyatt Chrome windows after navigation by default; set `HYATT_BROWSER_BACKGROUND=0` only when you need to watch the browser. Do not close it between related calls. `HYATT_BROWSER_HEADLESS=true` can try hidden mode, but Hyatt may block basic headless browsers.
+
+Hotel metadata from `/explore-hotels/service/hotels` is cache-backed because Hyatt's property list changes slowly. Default `auto` mode reuses fresh local hotel metadata for 24 hours. Use `--data-source live` only when the user asks for a fresh hotel list, `--no-cache` to bypass cache reads/writes, or `HYATT_HOTELS_CACHE_MAX_AGE=0` to disable this shortcut.
 
 Hyatt's calendar is useful but browser-bound and property-by-property. This CLI resolves cities into Hyatt hotels and spirit codes, turns points-calendar pages into structured local data, and separates standard-room availability from other room categories. It also treats length of stay as an availability-changing input, so one-night results are never reused as proof of multi-night award space.
 
@@ -229,6 +231,13 @@ Add `--agent` to any command. Expands to: `--json --compact --no-input --no-colo
 - **Offline-friendly** — sync/search commands can use the local SQLite store when available
 - **Non-interactive** — never prompts, every input is a flag
 - **Read-only** — do not use this CLI for create, update, delete, publish, comment, upvote, invite, order, send, or other mutating requests
+
+### Speed rules
+
+- Keep the default `HYATT_BROWSER_SESSION=hyatt-cli` browser-use session warm until the user task is done.
+- If the user gives a city, run `hotels resolve-city` once so cached hotel metadata resolves spirit codes before scanning availability.
+- Batch hotel codes in a single `scan hotel --hotels code1,code2,...` call.
+- Use `--select spiritCode,date,nights,roomCategory,isStandardRoom,available,pointsValue,pointsLevel` unless the user needs more fields.
 
 ### Response envelope
 

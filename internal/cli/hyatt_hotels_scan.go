@@ -34,7 +34,7 @@ func newHyattResolveCityCmd(flags *rootFlags) *cobra.Command {
 				if flags.dataSource == "local" {
 					return err
 				}
-				hotels, err = liveHyattHotels(cmd, flags)
+				hotels, err = liveHyattHotels(cmd, flags, dbPath)
 				if err != nil {
 					return err
 				}
@@ -126,7 +126,7 @@ func newScanCityCmd(flags *rootFlags) *cobra.Command {
 				if flags.dataSource == "local" {
 					return err
 				}
-				hotels, err = liveHyattHotels(cmd, flags)
+				hotels, err = liveHyattHotels(cmd, flags, dbPath)
 				if err != nil {
 					return err
 				}
@@ -162,7 +162,10 @@ func newScanCityCmd(flags *rootFlags) *cobra.Command {
 	return cmd
 }
 
-func liveHyattHotels(cmd *cobra.Command, flags *rootFlags) ([]hyattHotel, error) {
+func liveHyattHotels(cmd *cobra.Command, flags *rootFlags, dbPath string) ([]hyattHotel, error) {
+	if hotels, _, ok := freshCachedHyattHotels(cmd.Context(), flags, dbPath); ok {
+		return hotels, nil
+	}
 	c, err := flags.newClient()
 	if err != nil {
 		return nil, err
@@ -196,6 +199,7 @@ func liveHyattHotels(cmd *cobra.Command, flags *rootFlags) ([]hyattHotel, error)
 	if err := json.Unmarshal(normalized, &hotels); err != nil {
 		return nil, apiErr(fmt.Errorf("parsing Hyatt hotel metadata: %w", err))
 	}
+	writeHyattHotelsCache(cmd.Context(), flags, dbPath, hotels)
 	return hotels, nil
 }
 
