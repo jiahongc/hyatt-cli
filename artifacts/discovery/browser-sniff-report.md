@@ -3,7 +3,7 @@
 ## User Goal Flow
 - Goal: check World of Hyatt points availability across different Hyatt hotels.
 - Steps completed:
-  1. Probed Hyatt homepage and rate-calendar URL with `cli-printing-press probe-reachability`.
+  1. Probed Hyatt homepage and rate-calendar URL during discovery.
   2. Opened Park Hyatt Chicago rate-calendar URL with `agent-browser`; it hit Hyatt E6020 and produced no useful network capture.
   3. Opened the same URL with `browser-use --headed --profile Default`; it loaded the real Points Calendar page.
   4. Installed fetch/XHR interceptors and clicked month/option controls; only telemetry fired after interceptor install.

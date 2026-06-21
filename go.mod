@@ -1,4 +1,4 @@
-module hyatt-pp-cli
+module github.com/jiahongc/hyatt-cli
 
 go 1.26
 

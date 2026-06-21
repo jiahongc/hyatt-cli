@@ -17,7 +17,7 @@
     "mode": "browser_clearance_http",
     "confidence": 0.8,
     "reasons": [
-      "cli-printing-press probe-reachability returned browser_clearance_http for Hyatt homepage and rate-calendar URL",
+      "Discovery returned browser_clearance_http for Hyatt homepage and rate-calendar URL",
       "direct fetches returned Hyatt E6020 or 429/403 pages",
       "browser-use with headed Chrome profile loaded a real Points Calendar page and exposed window.STORE days"
     ],

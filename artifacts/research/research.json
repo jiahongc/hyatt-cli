@@ -31,7 +31,7 @@
       "command": "awards certificate-fit",
       "description": "Find available Hyatt award nights that fit a Cat 1-4 or Cat 1-7 certificate before it expires.",
       "rationale": "Requires joining local hotel category metadata, synced award calendar rows, and certificate constraints.",
-      "example": "hyatt-pp-cli awards certificate-fit --cert cat1-4 --expires 2026-12-31 --start 2026-09-01 --end 2026-12-31 --agent",
+      "example": "hyatt-cli awards certificate-fit --cert cat1-4 --expires 2026-12-31 --start 2026-09-01 --end 2026-12-31 --agent",
       "why_it_matters": "Use this when the user needs to burn a Hyatt certificate without manually checking category and date fit.",
       "group": "Award decision helpers"
     },
@@ -40,7 +40,7 @@
       "command": "awards density",
       "description": "Show which dates or weeks have the most Hyatt award options across a hotel shortlist.",
       "rationale": "Requires aggregating local calendar-day rows across multiple hotels and date buckets.",
-      "example": "hyatt-pp-cli awards density --hotels CHIRH,NYCUA,PARPH --start 2026-07-01 --end 2026-09-30 --bucket week --agent",
+      "example": "hyatt-cli awards density --hotels CHIRH,NYCUA,PARPH --start 2026-07-01 --end 2026-09-30 --bucket week --agent",
       "why_it_matters": "Use this before picking travel dates when flexibility matters more than a specific property.",
       "group": "Flexible-date search"
     },
@@ -49,7 +49,7 @@
       "command": "awards split-stay",
       "description": "Build viable multi-hotel Hyatt itineraries when no one property has the full stay.",
       "rationale": "Requires solving contiguous nightly coverage across multiple local hotel calendars.",
-      "example": "hyatt-pp-cli awards split-stay --hotels CHIRH,CHIJD --start 2026-08-01 --end 2026-08-15 --nights 5 --max-switches 1 --agent",
+      "example": "hyatt-cli awards split-stay --hotels CHIRH,CHIJD --start 2026-08-01 --end 2026-08-15 --nights 5 --max-switches 1 --agent",
       "why_it_matters": "Use this when the user will switch hotels to make an award trip work.",
       "group": "Flexible-date search"
     },
@@ -58,7 +58,7 @@
       "command": "watch volatility",
       "description": "Rank watched Hyatt hotels by how often award space opens, closes, or changes price.",
       "rationale": "Requires local watch snapshot history and delta aggregation that Hyatt's page does not expose.",
-      "example": "hyatt-pp-cli watch volatility --since 30d --limit 20 --agent",
+      "example": "hyatt-cli watch volatility --since 30d --limit 20 --agent",
       "why_it_matters": "Use this to decide which hard-to-book Hyatt searches deserve closer monitoring.",
       "group": "Watchlist intelligence"
     },
@@ -67,7 +67,7 @@
       "command": "awards offpeak",
       "description": "Find off-peak or unusually low-point Hyatt award clusters across synced calendar data.",
       "rationale": "Requires comparing local pointsLevel and pointsValue rows across hotels, categories, and dates.",
-      "example": "hyatt-pp-cli awards offpeak --country US --start 2026-06-01 --end 2027-05-31 --min-nights 2 --agent",
+      "example": "hyatt-cli awards offpeak --country US --start 2026-06-01 --end 2027-05-31 --min-nights 2 --agent",
       "why_it_matters": "Use this when the user wants low-points timing rather than a specific hotel.",
       "group": "Award decision helpers"
     },
@@ -76,7 +76,7 @@
       "command": "awards room-ladder",
       "description": "Compare standard, club, and suite award availability side by side for one Hyatt stay window.",
       "rationale": "Requires aligning cached calendar rows across multiple Hyatt roomCategory values for the same hotel and dates.",
-      "example": "hyatt-pp-cli awards room-ladder --hotel CHIRH --start 2026-10-01 --end 2026-10-07 --agent",
+      "example": "hyatt-cli awards room-ladder --hotel CHIRH --start 2026-10-01 --end 2026-10-07 --agent",
       "why_it_matters": "Use this when the user cares whether better room categories are open, not just standard rooms.",
       "group": "Award decision helpers"
     },
@@ -85,7 +85,7 @@
       "command": "awards coverage",
       "description": "Show stale, missing, or uneven local Hyatt calendar coverage before trusting a scan.",
       "rationale": "Requires local snapshot metadata and requested hotel/date windows.",
-      "example": "hyatt-pp-cli awards coverage --hotels CHIRH,NYCUA --start 2026-07-01 --end 2026-12-31 --agent",
+      "example": "hyatt-cli awards coverage --hotels CHIRH,NYCUA --start 2026-07-01 --end 2026-12-31 --agent",
       "why_it_matters": "Use this when browser protection or expired cookies may have left gaps in cached availability.",
       "group": "Reachability mitigation"
     }
@@ -97,38 +97,38 @@
     "auth_narrative": "The first shippable flow uses public Hyatt Points Calendar pages and browser-compatible replay. Logged-in Hyatt sessions are short-lived, so account-specific perks or durable authenticated availability are intentionally out of initial scope.",
     "quickstart": [
       {
-        "command": "hyatt-pp-cli doctor --dry-run",
+        "command": "hyatt-cli doctor --dry-run",
         "comment": "Check local configuration and transport assumptions without touching Hyatt."
       },
       {
-        "command": "hyatt-pp-cli calendars get --spirit-code kulal --start-date 2026-09-01 --end-date 2026-09-02 --json --select spiritCode,days",
+        "command": "hyatt-cli calendars get --spirit-code kulal --start-date 2026-09-01 --end-date 2026-09-02 --json --select spiritCode,days",
         "comment": "Fetch one browser-sniffed Points Calendar surface and keep only fields an agent needs."
       },
       {
-        "command": "hyatt-pp-cli hotels sync --dry-run",
+        "command": "hyatt-cli hotels sync --dry-run",
         "comment": "Preview Hyatt property metadata hydration before building the local hotel index."
       },
       {
-        "command": "hyatt-pp-cli hotels resolve-city --city \"New York City\" --json --select name,spiritCode,city,state,category",
+        "command": "hyatt-cli hotels resolve-city --city \"New York City\" --json --select name,spiritCode,city,state,category",
         "comment": "Turn a city into the matching Hyatt hotels and the spirit codes used by availability scans."
       },
       {
-        "command": "hyatt-pp-cli scan city --city \"New York City\" --start 2026-09-01 --end 2026-09-07 --nights 2 --room-categories STANDARD_ROOM,SUITE --agent",
+        "command": "hyatt-cli scan city --city \"New York City\" --start 2026-09-01 --end 2026-09-07 --nights 2 --room-categories STANDARD_ROOM,SUITE --agent",
         "comment": "Scan every matching city hotel and label standard-room versus other room-category award space."
       },
       {
-        "command": "hyatt-pp-cli awards density --hotels CHIRH,NYCUA,PARPH --start 2026-07-01 --end 2026-09-30 --nights 2 --bucket week --agent",
+        "command": "hyatt-cli awards density --hotels CHIRH,NYCUA,PARPH --start 2026-07-01 --end 2026-09-30 --nights 2 --bucket week --agent",
         "comment": "Find flexible-date award clusters across a shortlist."
       }
     ],
     "troubleshoots": [
       {
         "symptom": "Hyatt returns E6020, 403, or 429.",
-        "fix": "Run `hyatt-pp-cli doctor hyatt` and refresh the browser-cookie path before scanning again."
+        "fix": "Run `hyatt-cli doctor hyatt` and refresh the browser-cookie path before scanning again."
       },
       {
         "symptom": "Scan results look sparse or uneven.",
-        "fix": "Run `hyatt-pp-cli awards coverage --hotels <codes> --start <date> --end <date>` to identify missing cached months or room categories."
+        "fix": "Run `hyatt-cli awards coverage --hotels <codes> --start <date> --end <date>` to identify missing cached months or room categories."
       },
       {
         "symptom": "Logged-in Hyatt data disappears quickly.",
@@ -144,32 +144,32 @@
     "recipes": [
       {
         "title": "Check one Points Calendar page",
-        "command": "hyatt-pp-cli calendars get --spirit-code kulal --start-date 2026-09-01 --end-date 2026-09-02 --room-category STANDARD_ROOM --agent --select spiritCode,roomCategory,days.2026-09-08.STANDARD_ROOM.pointsValue",
+        "command": "hyatt-cli calendars get --spirit-code kulal --start-date 2026-09-01 --end-date 2026-09-02 --room-category STANDARD_ROOM --agent --select spiritCode,roomCategory,days.2026-09-08.STANDARD_ROOM.pointsValue",
         "explanation": "Fetch one Hyatt standard-room calendar page and narrow the nested output to a specific award row."
       },
       {
         "title": "Resolve a city into Hyatt hotel codes",
-        "command": "hyatt-pp-cli hotels resolve-city --city \"New York City\" --agent --select name,spiritCode,city,state,category",
+        "command": "hyatt-cli hotels resolve-city --city \"New York City\" --agent --select name,spiritCode,city,state,category",
         "explanation": "Find the hotels and spirit codes to use when the user only knows the city."
       },
       {
         "title": "Scan a city by room category",
-        "command": "hyatt-pp-cli scan city --city \"New York City\" --start 2026-09-01 --end 2026-09-07 --nights 2 --room-categories STANDARD_ROOM,SUITE --agent --select hotelName,spiritCode,date,nights,roomCategory,isStandardRoom,pointsValue",
+        "command": "hyatt-cli scan city --city \"New York City\" --start 2026-09-01 --end 2026-09-07 --nights 2 --room-categories STANDARD_ROOM,SUITE --agent --select hotelName,spiritCode,date,nights,roomCategory,isStandardRoom,pointsValue",
         "explanation": "Search every matching city hotel and keep room type plus length of stay explicit in the output."
       },
       {
         "title": "Find certificate-eligible awards",
-        "command": "hyatt-pp-cli awards certificate-fit --cert cat1-4 --expires 2026-12-31 --start 2026-09-01 --end 2026-12-31 --agent",
+        "command": "hyatt-cli awards certificate-fit --cert cat1-4 --expires 2026-12-31 --start 2026-09-01 --end 2026-12-31 --agent",
         "explanation": "Combine local hotel categories and synced calendar rows to find certificate-fit nights."
       },
       {
         "title": "Compare flexible weekly availability",
-        "command": "hyatt-pp-cli awards density --hotels CHIRH,NYCUA,PARPH --start 2026-07-01 --end 2026-09-30 --nights 2 --bucket week --agent",
+        "command": "hyatt-cli awards density --hotels CHIRH,NYCUA,PARPH --start 2026-07-01 --end 2026-09-30 --nights 2 --bucket week --agent",
         "explanation": "See which weeks have the most two-night award options across a hotel shortlist."
       },
       {
         "title": "Build a split-stay option",
-        "command": "hyatt-pp-cli awards split-stay --hotels CHIRH,CHIJD --start 2026-08-01 --end 2026-08-15 --nights 5 --max-switches 1 --agent",
+        "command": "hyatt-cli awards split-stay --hotels CHIRH,CHIJD --start 2026-08-01 --end 2026-08-15 --nights 5 --max-switches 1 --agent",
         "explanation": "Find a viable award itinerary across hotels when one property does not have all nights."
       }
     ],

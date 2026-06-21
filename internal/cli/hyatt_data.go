@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jiahongc/hyatt-cli/internal/store"
 	"github.com/spf13/cobra"
-	"hyatt-pp-cli/internal/store"
 )
 
 type hyattHotel struct {
@@ -320,7 +320,7 @@ func openHyattStore(cmd *cobra.Command, flags *rootFlags, dbPath string) (*store
 		return nil, usageErr(fmt.Errorf("this command reads local Hyatt snapshots; --data-source=live has no local equivalent"))
 	}
 	if dbPath == "" {
-		dbPath = defaultDBPath("hyatt-pp-cli")
+		dbPath = defaultDBPath("hyatt-cli")
 	}
 	if _, err := os.Stat(dbPath); err != nil {
 		return nil, err
