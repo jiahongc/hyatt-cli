@@ -129,21 +129,8 @@ func New(cfg *config.Config, timeout time.Duration, rateLimit float64) *Client {
 			// "Moved Permanently" body back to the caller.
 			return errors.New("stopped after 10 redirects")
 		}
-		// The auth cookie set on the initial request is carried verbatim by Go
-		// on same-host redirects, so re-adding it here would double the Cookie
-		// header (the same hazard the cookie-jar branch below avoids). Only the
-		// cross-host hop needs handling: Go does not strip a manually-set Cookie
-		// for custom names, so drop the auth cookie by name to keep the
-		// credential from leaking to a redirect target, while preserving any
-		// other cookies on the request.
 		if req.URL.Host != via[0].URL.Host {
-			preserved := req.Cookies()
 			req.Header.Del("Cookie")
-			for _, ck := range preserved {
-				if ck.Name != "Cookie" {
-					req.AddCookie(ck)
-				}
-			}
 		}
 		return nil
 	}
@@ -568,7 +555,11 @@ func (c *Client) doInternal(ctx context.Context, method, path string, params map
 		}
 
 		if authHeader != "" {
-			req.AddCookie(&http.Cookie{Name: "Cookie", Value: authHeader})
+			if c.Config != nil && c.Config.UsesCookieAuth() {
+				req.Header.Set("Cookie", authHeader)
+			} else {
+				req.Header.Set("Authorization", authHeader)
+			}
 		}
 		if c.Config != nil {
 			for k, v := range c.Config.Headers {

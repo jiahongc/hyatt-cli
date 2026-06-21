@@ -242,6 +242,8 @@ func newAuthRefreshCmd(flags *rootFlags) *cobra.Command {
 
 			fmt.Fprintf(w, "Validating browser session...")
 			if err := validateAndWriteBrowserSessionProofWithRetry(cmd.Context(), cfg, flags, waitTimeout); err != nil {
+				_ = cfg.ClearTokens()
+				_ = clearBrowserSessionProof(cfg)
 				fmt.Fprintf(w, " %s\n", red("failed"))
 				return authErr(fmt.Errorf("browser session validation failed: %w", err))
 			}

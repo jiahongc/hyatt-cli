@@ -101,9 +101,27 @@ func newCalendarsPromotedCmd(flags *rootFlags) *cobra.Command {
 			if flagVrcEnabled != false {
 				params["vrcEnabled"] = formatCLIParamValue(flagVrcEnabled)
 			}
-			data, prov, err := resolveReadWithStrategy(cmd.Context(), c, flags, "auto", "calendars", false, path, params, nil, cmd.ErrOrStderr())
-			if err != nil {
-				return classifyAPIError(err, flags)
+			var data json.RawMessage
+			var prov DataProvenance
+			if !flags.dryRun && flags.dataSource != "local" && shouldUseHyattBrowserFirst() {
+				data, err = hyattBrowserCalendar(cmd.Context(), c.BaseURL, path, params)
+				if err != nil {
+					return apiErr(err)
+				}
+				prov = attachFreshness(DataProvenance{Source: "browser", Reason: "hyatt_browser_first", ResourceType: "calendars"}, flags)
+			} else {
+				data, prov, err = resolveReadWithStrategy(cmd.Context(), c, flags, "auto", "calendars", false, path, params, nil, cmd.ErrOrStderr())
+				if err != nil {
+					fallbackData, attempted, fallbackErr := hyattBrowserCalendarFallback(cmd.Context(), c.BaseURL, path, params, err)
+					if !attempted {
+						return classifyAPIError(err, flags)
+					}
+					if fallbackErr != nil {
+						return apiErr(fallbackErr)
+					}
+					data = fallbackData
+					prov = attachFreshness(DataProvenance{Source: "browser", Reason: "hyatt_browser_fallback", ResourceType: "calendars"}, flags)
+				}
 			}
 			if !flags.dryRun {
 				if parsed, ok := enhanceHyattCalendarData(data, htmlRequestParams); ok {

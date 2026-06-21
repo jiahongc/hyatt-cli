@@ -3,7 +3,7 @@
   "base_url": "https://www.hyatt.com",
   "description": "Check World of Hyatt points-calendar availability from Hyatt calendar pages",
   "mcp_ready": "partial",
-  "http_transport": "browser-chrome",
+  "http_transport": "browser-use",
   "auth": {
     "type": "cookie",
     "header": "Cookie",
@@ -15,7 +15,7 @@
       {
         "name": "HYATT_COOKIES",
         "kind": "per_call",
-        "required": true,
+        "required": false,
         "sensitive": true,
         "inferred": true
       }

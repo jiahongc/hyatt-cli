@@ -197,6 +197,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 			cookieToolFound := false
 			for _, check := range [][]string{
 				{"python3", "-c", "import pycookiecheat"},
+				{"pycookiecheat", "--help"},
 				{"cookies", "--help"},
 				{"cookie-scoop", "--help"},
 			} {
@@ -209,36 +210,23 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 			if !cookieToolFound {
 				report["cookie_tool"] = "not found (install: pip install pycookiecheat)"
 			}
+			if _, err := exec.LookPath("browser-use"); err == nil {
+				report["browser_transport"] = "browser-use"
+			} else {
+				report["browser_transport"] = "error: browser-use not found on PATH (install: pipx install browser-use)"
+			}
 
 			// Check auth environment variables
-			authEnvSet := []string{}
-			authEnvRequiredMissing := []string{}
-			authEnvInfo := []string{}
-			authEnvOptionalNames := []string{}
-			// Validation rejects multi-OR-group specs upstream, so the single optional-satisfied state is sufficient at runtime.
-			authEnvOptionalSatisfied := false
 			if os.Getenv("HYATT_COOKIES") != "" {
-				authEnvSet = append(authEnvSet, "HYATT_COOKIES")
+				report["env_vars"] = "OK optional HYATT_COOKIES set"
 			} else if authConfigured {
 				authSource, _ := report["auth_source"].(string)
 				if authSource == "" {
 					authSource = "config"
 				}
-				authEnvInfo = append(authEnvInfo, "credentials available from "+authSource)
+				report["env_vars"] = "OK credentials available from " + authSource
 			} else {
-				authEnvRequiredMissing = append(authEnvRequiredMissing, "HYATT_COOKIES")
-			}
-			switch {
-			case len(authEnvRequiredMissing) > 0:
-				report["env_vars"] = "ERROR missing required: " + strings.Join(authEnvRequiredMissing, ", ")
-			case len(authEnvOptionalNames) > 1 && !authEnvOptionalSatisfied:
-				report["env_vars"] = "INFO set one of: " + strings.Join(authEnvOptionalNames, " or ")
-			case len(authEnvInfo) > 0 && authConfigured:
-				report["env_vars"] = "OK " + strings.Join(authEnvInfo, "; ")
-			case len(authEnvInfo) > 0:
-				report["env_vars"] = "INFO " + strings.Join(authEnvInfo, "; ")
-			default:
-				report["env_vars"] = fmt.Sprintf("OK %d/%d available", len(authEnvSet), 1)
+				report["env_vars"] = "OK HYATT_COOKIES unset; browser transport is the default live path"
 			}
 
 			// Check API connectivity and validate credentials.
@@ -281,6 +269,8 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 						status := reachAPIErr.StatusCode
 						if vendor := looksLikeDoctorInterstitial([]byte(reachAPIErr.Body)); vendor != "" {
 							report["api"] = fmt.Sprintf("blocked by %s interstitial (HTTP %d) — the configured transport reached the wall.", vendor, status)
+						} else if status == 403 {
+							report["api"] = "raw HTTP reachable but protected (HTTP 403); browser transport handles live commands"
 						} else {
 							report["api"] = fmt.Sprintf("reachable (HTTP %d at /)", status)
 						}

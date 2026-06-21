@@ -62,6 +62,9 @@ func enhanceHyattCalendarData(raw []byte, params map[string]string) (json.RawMes
 	if !ok {
 		return nil, false
 	}
+	if meta["roomCategory"] != "" {
+		rows = filterAwardRows(rows, meta["spiritCode"], "", "", "", atoiDefault(meta["nights"], 0), meta["roomCategory"])
+	}
 	out := hyattCalendarOutput{
 		SpiritCode:   meta["spiritCode"],
 		CheckinDate:  meta["checkinDate"],
@@ -184,12 +187,19 @@ func rowsFromHyattStore(obj map[string]any, params map[string]string) []hyattAwa
 		for _, roomCategory := range names {
 			entry, _ := cats[roomCategory].(map[string]any)
 			points := firstInt(entry["pointsValue"])
+			nights := atoiDefault(meta["nights"], 0)
+			checkout := meta["checkoutDate"]
+			if nights > 0 {
+				if rowCheckout, err := addHyattNights(date, nights); err == nil {
+					checkout = rowCheckout
+				}
+			}
 			rows = append(rows, hyattAwardRow{
 				SpiritCode:     meta["spiritCode"],
-				CheckinDate:    meta["checkinDate"],
-				CheckoutDate:   meta["checkoutDate"],
+				CheckinDate:    date,
+				CheckoutDate:   checkout,
 				Date:           date,
-				Nights:         atoiDefault(meta["nights"], 0),
+				Nights:         nights,
 				RoomCategory:   roomCategory,
 				IsStandardRoom: strings.EqualFold(roomCategory, "STANDARD_ROOM"),
 				Available:      points > 0,
@@ -254,15 +264,13 @@ func rowFromFlatCalendarObject(obj map[string]any) (hyattAwardRow, bool) {
 func localHyattRows(cmd *cobra.Command, flags *rootFlags, dbPath string) ([]hyattAwardRow, error) {
 	db, err := openHyattStore(cmd, flags, dbPath)
 	if err != nil {
-		if strings.Contains(err.Error(), "no such file") || os.IsNotExist(err) || strings.Contains(err.Error(), "unable to open database file") {
-			return []hyattAwardRow{}, nil
-		}
 		return nil, err
 	}
 	defer db.Close()
-	if !hintIfUnsynced(cmd, db, "calendars") {
-		hintIfStale(cmd, db, "calendars", flags.maxAge)
+	if err := requireHyattSnapshotSynced(db, "calendars"); err != nil {
+		return nil, err
 	}
+	hintIfStale(cmd, db, "calendars", flags.maxAge)
 	raw, err := db.List("calendars", 0)
 	if err != nil {
 		return nil, err
@@ -303,15 +311,13 @@ func localHyattRows(cmd *cobra.Command, flags *rootFlags, dbPath string) ([]hyat
 func localHyattHotels(cmd *cobra.Command, flags *rootFlags, dbPath string) ([]hyattHotel, error) {
 	db, err := openHyattStore(cmd, flags, dbPath)
 	if err != nil {
-		if strings.Contains(err.Error(), "no such file") || os.IsNotExist(err) || strings.Contains(err.Error(), "unable to open database file") {
-			return []hyattHotel{}, nil
-		}
 		return nil, err
 	}
 	defer db.Close()
-	if !hintIfUnsynced(cmd, db, "hotels") {
-		hintIfStale(cmd, db, "hotels", flags.maxAge)
+	if err := requireHyattSnapshotSynced(db, "hotels"); err != nil {
+		return nil, err
 	}
+	hintIfStale(cmd, db, "hotels", flags.maxAge)
 	return localHyattHotelsFromStore(db)
 }
 
@@ -323,11 +329,25 @@ func openHyattStore(cmd *cobra.Command, flags *rootFlags, dbPath string) (*store
 		dbPath = defaultDBPath("hyatt-cli")
 	}
 	if _, err := os.Stat(dbPath); err != nil {
+		if os.IsNotExist(err) {
+			return nil, configErr(fmt.Errorf("local Hyatt snapshot DB does not exist at %s; run 'hyatt-cli sync --resources hotels,calendars' after configuring browser cookies", dbPath))
+		}
 		return nil, err
 	}
 	_, cancel := boundCtx(cmd.Context(), flags)
 	defer cancel()
 	return store.OpenReadOnly(dbPath)
+}
+
+func requireHyattSnapshotSynced(db *store.Store, resourceType string) error {
+	state, err := readSyncHintState(db, resourceType)
+	if err != nil {
+		return err
+	}
+	if !state.hasState {
+		return configErr(fmt.Errorf("local Hyatt %s snapshots have not been synced; run 'hyatt-cli sync --resources %s' after configuring browser cookies", resourceType, resourceType))
+	}
+	return nil
 }
 
 func localHyattHotelsFromStore(db *store.Store) ([]hyattHotel, error) {
@@ -350,29 +370,106 @@ func localHyattHotelsFromStore(db *store.Store) ([]hyattHotel, error) {
 	return hotels, nil
 }
 
+func normalizeHyattHotelsData(raw json.RawMessage) (json.RawMessage, bool) {
+	var value any
+	if json.Unmarshal(raw, &value) != nil {
+		return nil, false
+	}
+	hotels := hotelsFromHyattValue(value)
+	if len(hotels) == 0 {
+		return nil, false
+	}
+	data, err := json.Marshal(hotels)
+	return data, err == nil
+}
+
+func hotelsFromHyattValue(value any) []hyattHotel {
+	switch v := value.(type) {
+	case []any:
+		hotels := make([]hyattHotel, 0, len(v))
+		for _, item := range v {
+			if obj, ok := item.(map[string]any); ok {
+				if hotel, ok := hotelFromObject(obj); ok {
+					hotels = append(hotels, hotel)
+				}
+			}
+		}
+		sortHyattHotels(hotels)
+		return hotels
+	case map[string]any:
+		hotels := make([]hyattHotel, 0, len(v))
+		for code, item := range v {
+			obj, ok := item.(map[string]any)
+			if !ok {
+				continue
+			}
+			if obj["spiritCode"] == nil {
+				obj["spiritCode"] = code
+			}
+			if hotel, ok := hotelFromObject(obj); ok {
+				hotels = append(hotels, hotel)
+			}
+		}
+		sortHyattHotels(hotels)
+		return hotels
+	default:
+		return nil
+	}
+}
+
+func sortHyattHotels(hotels []hyattHotel) {
+	sort.Slice(hotels, func(i, j int) bool {
+		if strings.EqualFold(hotels[i].City, hotels[j].City) {
+			return hotels[i].Name < hotels[j].Name
+		}
+		return hotels[i].City < hotels[j].City
+	})
+}
+
 func hotelFromJSON(raw json.RawMessage) (hyattHotel, bool) {
 	var obj map[string]any
 	if json.Unmarshal(raw, &obj) != nil {
 		return hyattHotel{}, false
 	}
+	return hotelFromObject(obj)
+}
+
+func hotelFromObject(obj map[string]any) (hyattHotel, bool) {
+	location, _ := obj["location"].(map[string]any)
+	stateProvince, _ := location["stateProvince"].(map[string]any)
+	country, _ := location["country"].(map[string]any)
+	awardCategory, _ := obj["awardCategory"].(map[string]any)
+	brand, _ := obj["brand"].(map[string]any)
 	h := hyattHotel{
 		Name:       firstNonEmpty(stringValue(obj["name"]), stringValue(obj["hotelName"])),
 		SpiritCode: strings.ToUpper(firstNonEmpty(stringValue(obj["spiritCode"]), stringValue(obj["spirit_code"]), stringValue(obj["code"]))),
-		City:       firstNonEmpty(stringValue(obj["city"]), stringValue(obj["destination"])),
-		State:      firstNonEmpty(stringValue(obj["state"]), stringValue(obj["province"])),
-		Country:    stringValue(obj["country"]),
-		Category:   intValue(obj["category"]),
-		Brand:      stringValue(obj["brand"]),
+		City:       firstNonEmpty(stringValue(obj["city"]), stringValue(obj["destination"]), stringValue(location["city"])),
+		State:      firstNonEmpty(stringValue(obj["state"]), stringValue(obj["province"]), stringValue(stateProvince["key"]), stringValue(stateProvince["label"])),
+		Country:    firstNonEmpty(stringValue(obj["country"]), stringValue(country["key"]), stringValue(country["displayName"]), stringValue(country["label"])),
+		Category:   firstNonZero(intValue(obj["category"]), intValue(awardCategory["key"]), intValue(awardCategory["label"])),
+		Brand:      firstNonEmpty(stringValue(brand["label"]), stringValue(brand["key"]), stringValue(obj["brand"])),
 	}
 	return h, h.SpiritCode != "" || h.Name != ""
 }
 
 func resolveHyattCity(hotels []hyattHotel, city string) []hyattHotel {
 	want := normalizeText(city)
+	aliases := map[string]bool{want: true}
+	if strings.HasSuffix(want, " city") {
+		aliases[strings.TrimSpace(strings.TrimSuffix(want, " city"))] = true
+	}
 	var out []hyattHotel
 	for _, h := range hotels {
-		if normalizeText(h.City) == want || strings.Contains(normalizeText(h.City), want) || strings.Contains(normalizeText(h.Name), want) {
-			out = append(out, h)
+		hCity := normalizeText(h.City)
+		hName := normalizeText(h.Name)
+		for alias := range aliases {
+			if alias == "" {
+				continue
+			}
+			if hCity == alias || strings.Contains(hCity, alias) || strings.Contains(hName, alias) {
+				out = append(out, h)
+				break
+			}
 		}
 	}
 	return out
@@ -470,7 +567,7 @@ func stringValue(v any) string {
 	case nil:
 		return ""
 	default:
-		return strings.TrimSpace(fmt.Sprint(t))
+		return ""
 	}
 }
 

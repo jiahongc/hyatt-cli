@@ -10,6 +10,7 @@ metadata:
     requires:
       bins:
         - hyatt-cli
+        - browser-use
     install:
       - kind: go
         bins: [hyatt-cli]
@@ -32,6 +33,13 @@ This skill drives the `hyatt-cli` binary. **You must verify the CLI is installed
 This installs into `$GOPATH/bin` (default `$HOME/go/bin`), so add that directory to `$PATH` if needed.
 
 If `--version` reports "command not found" after install, the runtime cannot see the binary directory on `$PATH`. Do not proceed with skill commands until verification succeeds.
+
+Live Hyatt hotel and calendar pages are browser-backed. Verify `browser-use` is installed and on `$PATH` before live searches:
+
+```bash
+pipx install browser-use
+hyatt-cli doctor --json
+```
 
 Hyatt's calendar is useful but browser-bound and property-by-property. This CLI resolves cities into Hyatt hotels and spirit codes, turns points-calendar pages into structured local data, and separates standard-room availability from other room categories. It also treats length of stay as an availability-changing input, so one-night results are never reused as proof of multi-night award space.
 
@@ -109,14 +117,16 @@ These capabilities aren't available in any other tool for this API.
 
 ## HTTP Transport
 
-This CLI uses Chrome-compatible HTTP transport for browser-facing endpoints. It does not require a resident browser process for normal API calls.
+Hyatt commonly returns HTTP 403 to raw HTTP clients. For hotel metadata and points-calendar availability, this CLI uses `browser-use` by default, extracts the loaded page JSON or `window.STORE`, and normalizes that into CLI JSON.
+
+Only set `HYATT_TRANSPORT=http` when explicitly debugging direct HTTP. `HYATT_COOKIES` is optional and is not required for the normal browser-backed search path.
 
 ## Discovery Signals
 
 This CLI was generated with browser-observed traffic context.
 - Capture coverage: 1 API entries from 2 total network entries
 - Protocols: html-embedded-state (90% confidence)
-- Generation hints: Pass this traffic-analysis file during generation so browser_clearance_http is preserved., Add a hand-authored parser that extracts the JavaScript assignment window.STORE = {...}; from HTML and emits normalized availability rows., Treat direct HTTP 403/429 as expected unless Chrome-cookie replay also fails.
+- Generation hints: Use browser transport first for Hyatt hotel metadata and rate-calendar endpoints., Add a hand-authored parser that extracts the JavaScript assignment window.STORE = {...}; from HTML and emits normalized availability rows., Treat direct HTTP 403/429 as expected; HYATT_TRANSPORT=http is for debugging, not the default agent path.
 - Candidate command ideas: calendar — Fetch and parse a Hyatt Points Calendar page for one hotel spirit code.; scan — Repeat calendar fetches across multiple spirit codes and date windows to find points availability.
 - Caveats: html-state-not-standard-json-script: The calendar payload is a JavaScript assignment, not script#__NEXT_DATA__; built-in embedded-json extraction may not parse it without hand code.
 
@@ -146,7 +156,7 @@ hyatt-cli which "<capability in your own words>"
 ### Check one Points Calendar page
 
 ```bash
-hyatt-cli calendars get --spirit-code kulal --start-date 2026-09-01 --end-date 2026-09-02 --room-category STANDARD_ROOM --agent --select spiritCode,roomCategory,days.2026-09-08.STANDARD_ROOM.pointsValue
+hyatt-cli calendars --spirit-code KULAL --start-date 2026-09-01 --end-date 2026-09-02 --room-category STANDARD_ROOM --json --no-input --no-color --yes --select spiritCode,nights,roomCategory,days
 ```
 
 Fetch one Hyatt standard-room calendar page and narrow the nested output to a specific award row.
@@ -193,7 +203,7 @@ Find a viable award itinerary across hotels when one property does not have all 
 
 ## Auth Setup
 
-The first shippable flow uses public Hyatt Points Calendar pages and browser-compatible replay. Logged-in Hyatt sessions are short-lived, so account-specific perks or durable authenticated availability are intentionally out of initial scope.
+The normal live path uses public Hyatt Points Calendar pages through `browser-use`. Logged-in Hyatt sessions are short-lived, so account-specific perks or durable authenticated availability are intentionally out of scope. Do not require `HYATT_COOKIES` unless the user is explicitly debugging direct HTTP.
 
 Run `hyatt-cli doctor` to verify setup.
 
@@ -205,7 +215,7 @@ Add `--agent` to any command. Expands to: `--json --compact --no-input --no-colo
 - **Filterable** — `--select` keeps a subset of fields. Dotted paths descend into nested structures; arrays traverse element-wise. Critical for keeping context small on verbose APIs:
 
   ```bash
-  hyatt-cli calendars --spirit-code example-value --agent --select id,name,status
+  hyatt-cli scan hotel --hotels KULAL --start 2026-09-01 --end 2026-09-05 --nights 1 --agent --select spiritCode,date,nights,roomCategory,isStandardRoom,available,pointsValue
   ```
 - **Previewable** — `--dry-run` shows the request without sending
 - **Offline-friendly** — sync/search commands can use the local SQLite store when available
@@ -218,12 +228,12 @@ Commands that read from the local store or the API wrap output in a provenance e
 
 ```json
 {
-  "meta": {"source": "live" | "local", "synced_at": "...", "reason": "..."},
+  "meta": {"source": "browser" | "live" | "local", "synced_at": "...", "reason": "..."},
   "results": <data>
 }
 ```
 
-Parse `.results` for data and `.meta.source` to know whether it's live or local. A human-readable `N results (live)` summary is printed to stderr only when stdout is a terminal AND no machine-format flag (`--json`, `--csv`, `--compact`, `--quiet`, `--plain`, `--select`) is set — piped/agent consumers and explicit-format runs get pure JSON on stdout.
+Parse `.results` for data and `.meta.source` to know whether data came from the browser, direct HTTP, or local store. A human-readable `N results (...)` summary is printed to stderr only when stdout is a terminal AND no machine-format flag (`--json`, `--csv`, `--compact`, `--quiet`, `--plain`, `--select`) is set — piped/agent consumers and explicit-format runs get pure JSON on stdout.
 
 ## Agent Feedback
 

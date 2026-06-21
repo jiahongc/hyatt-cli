@@ -11,6 +11,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -52,7 +53,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/explore-hotels/rate-calendar", true, false, nil, []mcpParamBinding{{PublicName: "spirit-code", WireName: "spiritCode", Location: "query"}, {PublicName: "start-date", WireName: "startDate", Location: "query"}, {PublicName: "end-date", WireName: "endDate", Location: "query"}, {PublicName: "rooms", WireName: "rooms", Location: "query", Default: "1"}, {PublicName: "adults", WireName: "adults", Location: "query", Default: "1"}, {PublicName: "kids", WireName: "kids", Location: "query", Default: "0"}, {PublicName: "rate", WireName: "rate", Location: "query", Default: "Standard"}, {PublicName: "room-category", WireName: "roomCategory", Location: "query", Default: "STANDARD_ROOM"}, {PublicName: "vrc-enabled", WireName: "vrcEnabled", Location: "query", Default: "true"}}, []string{}),
+		makeCLIReadHandler([]string{"calendars"}),
 	)
 	s.AddTool(
 		mcplib.NewTool("hotels_list",
@@ -61,7 +62,7 @@ func RegisterTools(s *server.MCPServer) {
 			mcplib.WithDestructiveHintAnnotation(false),
 			mcplib.WithOpenWorldHintAnnotation(true),
 		),
-		makeAPIHandler("GET", "/explore-hotels/service/hotels", true, false, nil, []mcpParamBinding{}, []string{}),
+		makeCLIReadHandler([]string{"hotels"}),
 	)
 	// SQL tool — ad-hoc analysis on synced data without API calls
 	s.AddTool(
@@ -88,6 +89,61 @@ func RegisterTools(s *server.MCPServer) {
 	// Runtime Cobra-tree mirror — exposes every user-facing command that is
 	// not already covered by a typed endpoint or framework MCP tool.
 	cobratree.RegisterAll(s, cli.RootCmd(), cobratree.SiblingCLIPath)
+}
+
+func makeCLIReadHandler(commandPath []string) server.ToolHandlerFunc {
+	lookupPath, lookupErr := cobratree.SiblingCLIPath()
+	return func(ctx context.Context, req mcplib.CallToolRequest) (*mcplib.CallToolResult, error) {
+		if lookupErr != nil {
+			return mcplib.NewToolResultError(fmt.Sprintf("companion CLI binary not found: %v\nTried sibling lookup, HYATT_CLI_PATH env var, and PATH.", lookupErr)), nil
+		}
+		finalArgs := append([]string{}, commandPath...)
+		finalArgs = append(finalArgs, "--json", "--no-input", "--no-color", "--yes")
+		finalArgs = append(finalArgs, cliFlagsFromMCPArgs(req.GetArguments())...)
+		out, err := cobratree.RunCLICommand(ctx, lookupPath, finalArgs)
+		if err != nil {
+			return mcplib.NewToolResultError(err.Error()), nil
+		}
+		return mcpToolResultText("GET", json.RawMessage(out)), nil
+	}
+}
+
+func cliFlagsFromMCPArgs(args map[string]any) []string {
+	keys := make([]string, 0, len(args))
+	for k := range args {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	out := make([]string, 0, len(keys)*2)
+	for _, k := range keys {
+		v := args[k]
+		switch tv := v.(type) {
+		case bool:
+			if tv {
+				out = append(out, "--"+k)
+			}
+		case float64:
+			out = append(out, "--"+k, formatMCPParamValue(tv))
+		case string:
+			if tv != "" {
+				out = append(out, "--"+k, tv)
+			}
+		case []any:
+			if len(tv) == 0 {
+				continue
+			}
+			parts := make([]string, 0, len(tv))
+			for _, item := range tv {
+				parts = append(parts, fmt.Sprintf("%v", item))
+			}
+			out = append(out, "--"+k, strings.Join(parts, ","))
+		default:
+			if v != nil {
+				out = append(out, "--"+k, fmt.Sprintf("%v", v))
+			}
+		}
+	}
+	return out
 }
 
 type mcpParamBinding struct {
@@ -255,19 +311,21 @@ func makeAPIHandler(method, pathTemplate string, readOnly bool, binaryResponse b
 			case strings.Contains(msg, "HTTP 400") && cliutil.LooksLikeAuthError(msg):
 				return mcplib.NewToolResultError("authentication error: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: the API rejected the request — this usually means auth is missing or invalid." +
-					"\n      Set your API key: export HYATT_COOKIES=<your-key>" +
+					"\n      For Hyatt live pages, use the default browser transport and make sure browser-use is on PATH." +
+					"\n      HYATT_COOKIES is optional and only useful for direct HTTP debugging." +
 					"\n      See API docs: https://www.hyatt.com" +
 					"\n      Run 'hyatt-cli doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 401"):
 				return mcplib.NewToolResultError("authentication failed: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: check your API credentials." +
-					"\n      Set it with: export HYATT_COOKIES=<your-key>" +
+					"\n      For Hyatt live pages, use the default browser transport and make sure browser-use is on PATH." +
 					"\n      See API docs: https://www.hyatt.com" +
 					"\n      Run 'hyatt-cli doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 403"):
 				return mcplib.NewToolResultError("permission denied: " + cliutil.SanitizeErrorBody(msg) +
-					"\nhint: your credentials are valid but lack access to this resource." +
-					"\n      Set it with: export HYATT_COOKIES=<your-key>" +
+					"\nhint: Hyatt commonly returns 403 to raw HTTP clients." +
+					"\n      Use the default browser transport, install browser-use, and unset HYATT_TRANSPORT=http if set." +
+					"\n      HYATT_COOKIES is optional and only useful for direct HTTP debugging." +
 					"\n      See API docs: https://www.hyatt.com" +
 					"\n      Run 'hyatt-cli doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 404"):
@@ -661,14 +719,28 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 		// tool_surface tells agents which surface a capability lives on.
 		"tool_surface": "MCP exposes typed endpoint tools plus a runtime mirror of user-facing CLI commands. Endpoint tools keep typed schemas; command-mirror tools shell out to the companion hyatt-cli binary.",
 		"auth": map[string]any{
-			"type": "cookie",
+			"type": "browser",
 			"env_vars": []map[string]any{
 				{
 					"name":        "HYATT_COOKIES",
 					"kind":        "per_call",
-					"required":    true,
+					"required":    false,
 					"sensitive":   true,
-					"description": "Set to your API credential.",
+					"description": "Optional raw Hyatt Cookie header for debugging direct HTTP transport. Normal live searches use browser-use.",
+				},
+				{
+					"name":        "HYATT_TRANSPORT",
+					"kind":        "runtime",
+					"required":    false,
+					"sensitive":   false,
+					"description": "Optional override. Default is browser. Set to http/direct only when debugging raw HTTP.",
+				},
+				{
+					"name":        "HYATT_BROWSER_SESSION",
+					"kind":        "runtime",
+					"required":    false,
+					"sensitive":   false,
+					"description": "Optional browser-use session name. Defaults to hyatt-cli.",
 				},
 			},
 			"docs_url": "https://www.hyatt.com",
@@ -688,10 +760,9 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 			},
 		},
 		"query_tips": []string{
-			"Pagination uses cursor-based paging. Pass after parameter for subsequent pages.",
-			"Control page size with the limit parameter (default 100).",
-			"Use the sql tool for ad-hoc analysis on synced data. Run sync first to populate the local database.",
-			"Use the search tool for full-text search across all synced resources. Faster than iterating list endpoints.",
+			"Prefer command-mirror tools or hyatt-cli --agent --select for Hyatt availability workflows.",
+			"Use browser transport for hotels and calendars; raw HTTP commonly returns 403.",
+			"Use the sql tool for ad-hoc analysis on synced data after sync populates the local database.",
 			"Prefer sql/search over repeated API calls when the data is already synced.",
 		},
 		// Command-mirror capabilities are exposed through MCP by shelling out

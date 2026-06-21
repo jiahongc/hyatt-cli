@@ -1,8 +1,10 @@
 package cli
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -29,7 +31,13 @@ func newHyattResolveCityCmd(flags *rootFlags) *cobra.Command {
 			}
 			hotels, err := localHyattHotels(cmd, flags, dbPath)
 			if err != nil {
-				return err
+				if flags.dataSource == "local" {
+					return err
+				}
+				hotels, err = liveHyattHotels(cmd, flags)
+				if err != nil {
+					return err
+				}
 			}
 			return printJSONFiltered(cmd.OutOrStdout(), resolveHyattCity(hotels, city), flags)
 		},
@@ -72,7 +80,13 @@ func newScanHotelCmd(flags *rootFlags) *cobra.Command {
 			}
 			rows, err := localHyattRows(cmd, flags, dbPath)
 			if err != nil {
-				return err
+				if flags.dataSource == "local" {
+					return err
+				}
+				rows, err = liveHyattCalendarRows(cmd, flags, hotels, start, end, nights, roomCategories)
+				if err != nil {
+					return err
+				}
 			}
 			rows = filterAwardRows(rows, hotels, "", start, end, nights, roomCategories)
 			return printJSONFiltered(cmd.OutOrStdout(), rows, flags)
@@ -109,7 +123,13 @@ func newScanCityCmd(flags *rootFlags) *cobra.Command {
 			}
 			hotels, err := localHyattHotels(cmd, flags, dbPath)
 			if err != nil {
-				return err
+				if flags.dataSource == "local" {
+					return err
+				}
+				hotels, err = liveHyattHotels(cmd, flags)
+				if err != nil {
+					return err
+				}
 			}
 			matches := resolveHyattCity(hotels, city)
 			if len(matches) == 0 {
@@ -121,7 +141,13 @@ func newScanCityCmd(flags *rootFlags) *cobra.Command {
 			}
 			rows, err := localHyattRows(cmd, flags, dbPath)
 			if err != nil {
-				return err
+				if flags.dataSource == "local" {
+					return err
+				}
+				rows, err = liveHyattCalendarRows(cmd, flags, strings.Join(codes, ","), start, end, nights, roomCategories)
+				if err != nil {
+					return err
+				}
 			}
 			rows = filterAwardRows(rows, strings.Join(codes, ","), "", start, end, nights, roomCategories)
 			return printJSONFiltered(cmd.OutOrStdout(), rows, flags)
@@ -134,4 +160,125 @@ func newScanCityCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&roomCategories, "room-categories", "STANDARD_ROOM", "Comma-separated Hyatt room categories, e.g. STANDARD_ROOM,SUITE")
 	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/hyatt-cli/data.db)")
 	return cmd
+}
+
+func liveHyattHotels(cmd *cobra.Command, flags *rootFlags) ([]hyattHotel, error) {
+	c, err := flags.newClient()
+	if err != nil {
+		return nil, err
+	}
+	path := "/explore-hotels/service/hotels"
+	params := map[string]string{}
+	var data json.RawMessage
+	if shouldUseHyattBrowserFirst() {
+		data, err = hyattBrowserJSON(cmd.Context(), c.BaseURL, path, params)
+	} else {
+		data, err = c.GetWithHeaders(cmd.Context(), path, params, nil)
+	}
+	if err != nil && !shouldUseHyattBrowserFirst() {
+		fallbackData, attempted, fallbackErr := hyattBrowserJSONFallback(cmd.Context(), c.BaseURL, path, params, err)
+		if !attempted {
+			return nil, classifyAPIError(err, flags)
+		}
+		if fallbackErr != nil {
+			return nil, apiErr(fallbackErr)
+		}
+		data = fallbackData
+	}
+	if err != nil {
+		return nil, apiErr(err)
+	}
+	normalized, ok := normalizeHyattHotelsData(data)
+	if !ok {
+		return nil, apiErr(fmt.Errorf("Hyatt hotel metadata response did not contain hotel rows"))
+	}
+	var hotels []hyattHotel
+	if err := json.Unmarshal(normalized, &hotels); err != nil {
+		return nil, apiErr(fmt.Errorf("parsing Hyatt hotel metadata: %w", err))
+	}
+	return hotels, nil
+}
+
+func liveHyattCalendarRows(cmd *cobra.Command, flags *rootFlags, hotelsCSV, start, end string, nights int, roomCategoriesCSV string) ([]hyattAwardRow, error) {
+	if strings.TrimSpace(start) == "" || strings.TrimSpace(end) == "" {
+		return nil, usageErr(fmt.Errorf("--start and --end are required for live Hyatt scans"))
+	}
+	if nights < 1 {
+		return nil, usageErr(fmt.Errorf("--nights must be >= 1"))
+	}
+	c, err := flags.newClient()
+	if err != nil {
+		return nil, err
+	}
+	checkout, err := addHyattNights(start, nights)
+	if err != nil {
+		return nil, usageErr(err)
+	}
+	path := "/explore-hotels/rate-calendar"
+	codes := csvValues(hotelsCSV)
+	categories := csvValues(roomCategoriesCSV)
+	if len(categories) == 0 {
+		categories = []string{"STANDARD_ROOM"}
+	}
+	var out []hyattAwardRow
+	for _, code := range codes {
+		for _, category := range categories {
+			params := map[string]string{
+				"spiritCode":   code,
+				"startDate":    start,
+				"endDate":      checkout,
+				"rooms":        "1",
+				"adults":       "1",
+				"kids":         "0",
+				"rate":         "Standard",
+				"roomCategory": category,
+				"vrcEnabled":   "true",
+			}
+			var data json.RawMessage
+			if shouldUseHyattBrowserFirst() {
+				data, err = hyattBrowserCalendar(cmd.Context(), c.BaseURL, path, params)
+			} else {
+				data, err = c.GetWithHeaders(cmd.Context(), path, params, nil)
+			}
+			if err != nil && !shouldUseHyattBrowserFirst() {
+				fallbackData, attempted, fallbackErr := hyattBrowserCalendarFallback(cmd.Context(), c.BaseURL, path, params, err)
+				if !attempted {
+					return nil, classifyAPIError(err, flags)
+				}
+				if fallbackErr != nil {
+					return nil, apiErr(fmt.Errorf("Hyatt calendar fallback failed for %s/%s: %w", code, category, fallbackErr))
+				}
+				data = fallbackData
+			}
+			if err != nil {
+				return nil, apiErr(fmt.Errorf("Hyatt calendar browser transport failed for %s/%s: %w", code, category, err))
+			}
+			rows, _, ok := hyattRowsFromPayload(data, params)
+			if !ok {
+				return nil, apiErr(fmt.Errorf("Hyatt calendar response for %s did not contain availability rows", code))
+			}
+			rows = filterAwardRows(rows, code, "", "", "", nights, category)
+			out = append(out, rows...)
+		}
+	}
+	return filterAwardRows(out, hotelsCSV, "", start, end, nights, roomCategoriesCSV), nil
+}
+
+func csvValues(s string) []string {
+	var out []string
+	for _, part := range strings.Split(s, ",") {
+		part = strings.TrimSpace(part)
+		if part != "" {
+			out = append(out, part)
+		}
+	}
+	return out
+}
+
+func addHyattNights(start string, nights int) (string, error) {
+	d, err := time.Parse("2006-01-02", start)
+	if err != nil {
+		return "", fmt.Errorf("--start must be YYYY-MM-DD: %w", err)
+	}
+	return d.AddDate(0, 0, nights).Format("2006-01-02"), nil
 }

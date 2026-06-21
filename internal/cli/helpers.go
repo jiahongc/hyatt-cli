@@ -492,19 +492,20 @@ func classifyAPIError(err error, flags *rootFlags) error {
 		return authErr(err)
 	case strings.Contains(msg, "HTTP 400") && cliutil.LooksLikeAuthError(msg):
 		return authErr(fmt.Errorf("%w\nhint: the API rejected the request — this usually means auth is missing or invalid."+
-			"\n      Set your API key: export HYATT_COOKIES=<your-key>"+
+			"\n      For Hyatt live pages, use the default browser transport and make sure browser-use is on PATH."+
+			"\n      HYATT_COOKIES is optional and only useful for direct HTTP debugging."+
 			"\n      See API docs: https://www.hyatt.com"+
 			"\n      Run 'hyatt-cli doctor' to check auth status."+
 			"\n      Response: "+cliutil.SanitizeErrorBody(msg), err))
 	case strings.Contains(msg, "HTTP 401"):
 		return authErr(fmt.Errorf("%w\nhint: check your API credentials."+
-			" Set it with: export HYATT_COOKIES=<your-key>"+
+			" For Hyatt live pages, use the default browser transport and make sure browser-use is on PATH."+
 			"\n      See API docs: https://www.hyatt.com"+
 			"\n      Run 'hyatt-cli doctor' to check auth status.", err))
 	case strings.Contains(msg, "HTTP 403"):
-		return authErr(fmt.Errorf("%w\nhint: permission denied. Your credentials are valid but lack access to this resource."+
-			"\n      Check that your API key has the required permissions."+
-			"\n      Set it with: export HYATT_COOKIES=<your-key>"+
+		return authErr(fmt.Errorf("%w\nhint: Hyatt commonly returns 403 to raw HTTP clients."+
+			"\n      Use the default browser transport, install browser-use, and unset HYATT_TRANSPORT=http if set."+
+			"\n      HYATT_COOKIES is optional and only useful for direct HTTP debugging."+
 			"\n      See API docs: https://www.hyatt.com"+
 			"\n      Run 'hyatt-cli doctor' to check auth status.", err))
 	case strings.Contains(msg, "HTTP 404"):

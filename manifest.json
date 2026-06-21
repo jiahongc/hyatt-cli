@@ -15,6 +15,7 @@
       "command": "${__dirname}/bin/hyatt-mcp",
       "args": [],
       "env": {
+        "HYATT_TRANSPORT": "browser",
         "HYATT_COOKIES": "${user_config.hyatt_cookies}"
       }
     }
@@ -23,7 +24,7 @@
     "hyatt_cookies": {
       "type": "string",
       "title": "HYATT_COOKIES",
-      "description": "Optional. Sets HYATT_COOKIES for the World of Hyatt MCP server.",
+      "description": "Optional. Sets HYATT_COOKIES for direct HTTP debugging. Normal Hyatt searches use browser transport.",
       "sensitive": true
     }
   },

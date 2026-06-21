@@ -107,12 +107,33 @@ func buildAgentContext(rootCmd *cobra.Command) agentContext {
 		{
 			Name:        "HYATT_COOKIES",
 			Kind:        "per_call",
-			Required:    true,
+			Required:    false,
 			Sensitive:   true,
-			Description: "Set to your API credential.",
+			Description: "Optional raw Hyatt Cookie header for debugging direct HTTP transport. Normal live searches use browser-use.",
+		},
+		{
+			Name:        "HYATT_TRANSPORT",
+			Kind:        "runtime",
+			Required:    false,
+			Sensitive:   false,
+			Description: "Optional override. Default is browser. Set to http/direct only when debugging raw HTTP.",
+		},
+		{
+			Name:        "HYATT_BROWSER_SESSION",
+			Kind:        "runtime",
+			Required:    false,
+			Sensitive:   false,
+			Description: "Optional browser-use session name. Defaults to hyatt-cli.",
+		},
+		{
+			Name:        "HYATT_BROWSER_PROFILE",
+			Kind:        "runtime",
+			Required:    false,
+			Sensitive:   false,
+			Description: "Optional browser-use profile name. Leave unset unless the local browser-use profile is known to work.",
 		},
 	}
-	authMode := "cookie"
+	authMode := "browser"
 	if authMode == "" {
 		authMode = "none"
 	}
@@ -144,7 +165,7 @@ func buildAgentDiscoveryContext() *agentContextDiscovery {
 		TargetURL:     "https://www.hyatt.com/explore-hotels/rate-calendar",
 		EntryCount:    2,
 		APIEntryCount: 1,
-		Reachability:  "browser_clearance_http (80% confidence)",
+		Reachability:  "browser-use live pages; raw HTTP commonly returns 403",
 		Protocols: []string{
 			"html-embedded-state (90% confidence)",
 		},
@@ -153,9 +174,9 @@ func buildAgentDiscoveryContext() *agentContextDiscovery {
 			"hyatt-browser-clearance (80% confidence)",
 		},
 		GenerationHints: []string{
-			"Pass this traffic-analysis file during generation so browser_clearance_http is preserved.",
+			"Use browser transport first for Hyatt hotel metadata and rate-calendar endpoints.",
 			"Add a hand-authored parser that extracts the JavaScript assignment window.STORE = {...}; from HTML and emits normalized availability rows.",
-			"Treat direct HTTP 403/429 as expected unless Chrome-cookie replay also fails.",
+			"Treat direct HTTP 403/429 as expected; HYATT_TRANSPORT=http is for debugging, not the default agent path.",
 		},
 		Warnings: []string{
 			"html-state-not-standard-json-script: The calendar payload is a JavaScript assignment, not script#__NEXT_DATA__; built-in embedded-json extraction may not parse it without hand code.",

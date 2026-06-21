@@ -5,9 +5,15 @@ package client
 
 import (
 	"bytes"
+	"context"
+	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 	"unicode/utf8"
+
+	"github.com/jiahongc/hyatt-cli/internal/config"
 )
 
 func TestTruncateBody(t *testing.T) {
@@ -68,5 +74,33 @@ func TestTruncateBody_UTF8RuneAtBoundary(t *testing.T) {
 	// Partial rune must be dropped, not replaced: 4094 valid bytes + "...".
 	if want := 4094 + 3; len(got) != want {
 		t.Fatalf("len = %d, want %d (partial rune should be dropped, not replaced)", len(got), want)
+	}
+}
+
+func TestClientSendsHyattCookiesAsCookieHeader(t *testing.T) {
+	t.Parallel()
+
+	const wantCookie = "foo=bar; baz=qux"
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if got := r.Header.Get("Cookie"); got != wantCookie {
+			t.Fatalf("Cookie header = %q, want %q", got, wantCookie)
+		}
+		if got := r.Header.Get("Authorization"); got != "" {
+			t.Fatalf("Authorization header = %q, want empty", got)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"ok":true}`))
+	}))
+	t.Cleanup(server.Close)
+
+	cfg := &config.Config{
+		BaseURL:      server.URL,
+		HyattCookies: wantCookie,
+		AuthSource:   "config",
+	}
+	c := New(cfg, time.Second, 0)
+
+	if _, err := c.Get(context.Background(), "/ok", nil); err != nil {
+		t.Fatalf("Get returned error: %v", err)
 	}
 }

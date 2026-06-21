@@ -102,12 +102,13 @@ func (c *Config) AuthHeader() string {
 	if c.AuthHeaderVal != "" {
 		return c.AuthHeaderVal
 	}
-	// Env-var token wins over file-stored AccessToken (env > config convention).
+	// Browser cookies are already a complete Cookie header value. Do not wrap
+	// them in an auth scheme; callers must send them on the Cookie header.
 	if c.HyattCookies != "" {
 		if c.AuthSource == "" {
 			c.AuthSource = "env:HYATT_COOKIES"
 		}
-		return ensureAuthScheme("Bearer", c.HyattCookies)
+		return c.HyattCookies
 	}
 	if c.AccessToken != "" {
 		if c.AuthSource == "" {
@@ -116,6 +117,10 @@ func (c *Config) AuthHeader() string {
 		return ensureAuthScheme("Bearer", c.AccessToken)
 	}
 	return ""
+}
+
+func (c *Config) UsesCookieAuth() bool {
+	return c != nil && c.AuthHeaderVal == "" && c.HyattCookies != ""
 }
 
 func applyAuthFormat(format string, replacements map[string]string) string {
