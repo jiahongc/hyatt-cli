@@ -13,6 +13,8 @@ hyatt-cli agent-context --pretty
 
 Live Hyatt metadata and rate-calendar calls are browser-backed by default. Do not start by debugging cookies or raw HTTP. Make sure `browser-use` is on `PATH`; only use `HYATT_TRANSPORT=http` when explicitly debugging direct HTTP behavior.
 
+The default browser transport reuses one headed `browser-use` session named `hyatt-cli` and navigates the existing tab between Hyatt URLs. Do not close that session between calls unless you need to reset it. `HYATT_BROWSER_HEADLESS=true` is available as an opt-in experiment, but Hyatt may block basic headless mode.
+
 Use runtime discovery instead of relying on a copied command list:
 
 ```bash

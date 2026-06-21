@@ -32,17 +32,10 @@ func hyattBrowserCalendar(ctx context.Context, baseURL, path string, params map[
 	session := firstNonEmpty(os.Getenv("HYATT_BROWSER_SESSION"), "hyatt-cli")
 	profile := strings.TrimSpace(os.Getenv("HYATT_BROWSER_PROFILE"))
 
-	openArgs := []string{"--session", session, "--headed"}
-	if profile != "" {
-		openArgs = append(openArgs, "--profile", profile)
-	}
-	openArgs = append(openArgs, "open", targetURL)
 	var lastErr error
 	for attempt := 0; attempt < 2; attempt++ {
-		if out, err := runBrowserUseWithSessionRetry(ctx, session, openArgs); err != nil {
-			if !isIgnorableBrowserNavigationAbort(out) {
-				return nil, fmt.Errorf("browser open failed: %w: %s", err, strings.TrimSpace(string(out)))
-			}
+		if err := navigateHyattBrowser(ctx, session, profile, targetURL); err != nil {
+			return nil, err
 		}
 		store, err := waitForHyattBrowserStore(ctx, session)
 		if err == nil {
@@ -75,15 +68,8 @@ func hyattBrowserJSON(ctx context.Context, baseURL, path string, params map[stri
 	targetURL := htmlExtractionRequestURL(baseURL, path, params)
 	session := firstNonEmpty(os.Getenv("HYATT_BROWSER_SESSION"), "hyatt-cli")
 	profile := strings.TrimSpace(os.Getenv("HYATT_BROWSER_PROFILE"))
-	openArgs := []string{"--session", session, "--headed"}
-	if profile != "" {
-		openArgs = append(openArgs, "--profile", profile)
-	}
-	openArgs = append(openArgs, "open", targetURL)
-	if out, err := runBrowserUseWithSessionRetry(ctx, session, openArgs); err != nil {
-		if !isIgnorableBrowserNavigationAbort(out) {
-			return nil, fmt.Errorf("browser open failed: %w: %s", err, strings.TrimSpace(string(out)))
-		}
+	if err := navigateHyattBrowser(ctx, session, profile, targetURL); err != nil {
+		return nil, err
 	}
 
 	data, err := waitForHyattBrowserJSONBody(ctx, session)
@@ -116,6 +102,72 @@ func requireHyattBrowserTransport() error {
 	}
 	if _, err := exec.LookPath("browser-use"); err != nil {
 		return fmt.Errorf("Hyatt browser transport requires browser-use on PATH")
+	}
+	return nil
+}
+
+func navigateHyattBrowser(ctx context.Context, session, profile, targetURL string) error {
+	if isBrowserUseSessionRunning(ctx, session) {
+		if err := navigateExistingBrowserUseSession(ctx, session, targetURL); err == nil {
+			return nil
+		}
+	}
+	openArgs := browserUseOpenArgs(session, profile, targetURL)
+	out, err := exec.CommandContext(ctx, "browser-use", openArgs...).CombinedOutput()
+	if err == nil || isIgnorableBrowserNavigationAbort(out) {
+		return nil
+	}
+	if bytes.Contains(out, []byte("already running with different config")) {
+		if navErr := navigateExistingBrowserUseSession(ctx, session, targetURL); navErr == nil {
+			return nil
+		}
+	}
+	return fmt.Errorf("browser open failed: %w: %s", err, strings.TrimSpace(string(out)))
+}
+
+func browserUseOpenArgs(session, profile, targetURL string) []string {
+	args := []string{"--session", session}
+	if !hyattBrowserHeadless() {
+		args = append(args, "--headed")
+	}
+	if profile != "" {
+		args = append(args, "--profile", profile)
+	}
+	return append(args, "open", targetURL)
+}
+
+func hyattBrowserHeadless() bool {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("HYATT_BROWSER_HEADLESS"))) {
+	case "1", "true", "yes":
+		return true
+	default:
+		return false
+	}
+}
+
+func isBrowserUseSessionRunning(ctx context.Context, session string) bool {
+	out, err := exec.CommandContext(ctx, "browser-use", "sessions").CombinedOutput()
+	if err != nil {
+		return false
+	}
+	for _, line := range strings.Split(string(out), "\n") {
+		fields := strings.Fields(line)
+		if len(fields) >= 2 && fields[0] == session && fields[1] == "running" {
+			return true
+		}
+	}
+	return false
+}
+
+func navigateExistingBrowserUseSession(ctx context.Context, session, targetURL string) error {
+	quoted, err := json.Marshal(targetURL)
+	if err != nil {
+		return err
+	}
+	expr := "window.location.href = " + string(quoted)
+	out, err := exec.CommandContext(ctx, "browser-use", "--session", session, "eval", expr).CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("browser navigation failed: %w: %s", err, strings.TrimSpace(string(out)))
 	}
 	return nil
 }
@@ -185,15 +237,6 @@ func waitForHyattBrowserStore(ctx context.Context, session string) (json.RawMess
 		return nil, fmt.Errorf("direct Hyatt request was blocked and browser eval fallback failed: %w: %s", lastErr, strings.TrimSpace(string(lastOut)))
 	}
 	return nil, fmt.Errorf("direct Hyatt request was blocked and browser fallback did not expose window.STORE")
-}
-
-func runBrowserUseWithSessionRetry(ctx context.Context, session string, args []string) ([]byte, error) {
-	out, err := exec.CommandContext(ctx, "browser-use", args...).CombinedOutput()
-	if err == nil || !bytes.Contains(out, []byte("already running with different config")) {
-		return out, err
-	}
-	_ = exec.CommandContext(ctx, "browser-use", "--session", session, "close").Run()
-	return exec.CommandContext(ctx, "browser-use", args...).CombinedOutput()
 }
 
 func isIgnorableBrowserNavigationAbort(out []byte) bool {

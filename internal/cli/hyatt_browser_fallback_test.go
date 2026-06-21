@@ -28,3 +28,19 @@ func TestShouldUseHyattBrowserFirstDisabledByHTTPTransport(t *testing.T) {
 		t.Fatal("expected HYATT_TRANSPORT=http to disable browser-first transport")
 	}
 }
+
+func TestHyattBrowserHeadlessDefault(t *testing.T) {
+	t.Setenv("HYATT_BROWSER_HEADLESS", "")
+
+	if hyattBrowserHeadless() {
+		t.Fatal("expected headed browser by default because Hyatt blocks basic headless pages")
+	}
+}
+
+func TestHyattBrowserHeadlessOptIn(t *testing.T) {
+	t.Setenv("HYATT_BROWSER_HEADLESS", "true")
+
+	if !hyattBrowserHeadless() {
+		t.Fatal("expected HYATT_BROWSER_HEADLESS=true to opt into headless mode")
+	}
+}

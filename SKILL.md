@@ -41,6 +41,8 @@ pipx install browser-use
 hyatt-cli doctor --json
 ```
 
+The CLI reuses one headed `browser-use` session named `hyatt-cli` and navigates the existing tab between Hyatt URLs. Do not close it between related calls. `HYATT_BROWSER_HEADLESS=true` can try hidden mode, but Hyatt may block basic headless browsers.
+
 Hyatt's calendar is useful but browser-bound and property-by-property. This CLI resolves cities into Hyatt hotels and spirit codes, turns points-calendar pages into structured local data, and separates standard-room availability from other room categories. It also treats length of stay as an availability-changing input, so one-night results are never reused as proof of multi-night award space.
 
 ## When to Use This CLI
@@ -120,6 +122,12 @@ These capabilities aren't available in any other tool for this API.
 Hyatt commonly returns HTTP 403 to raw HTTP clients. For hotel metadata and points-calendar availability, this CLI uses `browser-use` by default, extracts the loaded page JSON or `window.STORE`, and normalizes that into CLI JSON.
 
 Only set `HYATT_TRANSPORT=http` when explicitly debugging direct HTTP. `HYATT_COOKIES` is optional and is not required for the normal browser-backed search path.
+
+Close the reusable browser session manually when finished:
+
+```bash
+browser-use --session hyatt-cli close
+```
 
 ## Discovery Signals
 

@@ -9,10 +9,10 @@ This CLI turns Hyatt hotel metadata and points-calendar pages into structured JS
 Hyatt commonly returns HTTP 403 to raw programmatic requests for the hotel metadata and rate-calendar pages. The working default is browser-backed:
 
 ```text
-hyatt-cli command -> browser-use opens Hyatt page -> CLI extracts page JSON/window.STORE -> normalized JSON output
+hyatt-cli command -> browser-use loads Hyatt page -> CLI extracts page JSON/window.STORE -> normalized JSON output
 ```
 
-That means live searches require `browser-use` on `PATH`.
+That means live searches require `browser-use` on `PATH`. By default the CLI uses one reusable headed browser session named `hyatt-cli`; it navigates the existing tab between Hyatt URLs instead of opening and closing a new browser for every hotel.
 
 ```bash
 pipx install browser-use
@@ -32,8 +32,17 @@ Useful transport env vars:
 | `HYATT_TRANSPORT` | `browser` | Set `http` or `direct` only to debug raw HTTP. |
 | `HYATT_BROWSER_SESSION` | `hyatt-cli` | Browser-use session name. |
 | `HYATT_BROWSER_PROFILE` | unset | Optional browser-use profile. Leave unset unless that profile is known to work. |
+| `HYATT_BROWSER_HEADLESS` | unset | Set `true` to try hidden/headless browser mode. Hyatt may block this. |
 | `HYATT_BROWSER_FALLBACK` | enabled | Set `0` to disable browser fallback. |
 | `HYATT_COOKIES` | unset | Optional raw Cookie header for direct HTTP debugging. Not required for normal browser-backed searches. |
+
+Close the reusable browser session when done:
+
+```bash
+browser-use --session hyatt-cli close
+```
+
+Headless note: basic headless Chromium hit Hyatt's "browser did something unexpected" page during verification, so the default remains headed. The UX fix is session reuse, not fully invisible browsing.
 
 ## Install
 
@@ -121,6 +130,7 @@ Agent rules:
 - Treat `.meta.source == "browser"` as normal for live Hyatt searches.
 - Do not chase `HYATT_COOKIES` unless explicitly debugging raw HTTP.
 - Avoid broad city scans when a user already supplied spirit codes; city scans open one browser-backed calendar page per hotel and room category.
+- Expect one reusable browser tab for live scans; do not close it between calls unless you need to reset the session.
 - Use `--timeout 120s` or higher for live browser-backed scans; use `--timeout 360s` for city scans.
 
 Fast command choice:
