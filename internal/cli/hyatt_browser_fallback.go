@@ -231,12 +231,16 @@ func backgroundHyattBrowser(ctx context.Context) {
     end try
   end repeat
 end tell`
+	bgCtx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 2*time.Second)
+	cmd := exec.CommandContext(bgCtx, "osascript")
+	cmd.Stdin = strings.NewReader(script)
+	if err := cmd.Start(); err != nil {
+		cancel()
+		return
+	}
 	go func() {
-		bgCtx, cancel := context.WithTimeout(ctx, 500*time.Millisecond)
 		defer cancel()
-		cmd := exec.CommandContext(bgCtx, "osascript")
-		cmd.Stdin = strings.NewReader(script)
-		_ = cmd.Run()
+		_ = cmd.Wait()
 	}()
 }
 
