@@ -222,8 +222,6 @@ func backgroundHyattBrowser(ctx context.Context) {
 	if runtime.GOOS != "darwin" || !shouldBackgroundHyattBrowser() {
 		return
 	}
-	bgCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
-	defer cancel()
 	script := `tell application "Google Chrome"
   repeat with w in windows
     try
@@ -233,9 +231,13 @@ func backgroundHyattBrowser(ctx context.Context) {
     end try
   end repeat
 end tell`
-	cmd := exec.CommandContext(bgCtx, "osascript")
-	cmd.Stdin = strings.NewReader(script)
-	_ = cmd.Run()
+	go func() {
+		bgCtx, cancel := context.WithTimeout(ctx, 500*time.Millisecond)
+		defer cancel()
+		cmd := exec.CommandContext(bgCtx, "osascript")
+		cmd.Stdin = strings.NewReader(script)
+		_ = cmd.Run()
+	}()
 }
 
 func isBrowserUseSessionRunning(ctx context.Context, session string) bool {
